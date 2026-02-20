@@ -1,133 +1,214 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Toko Online Indra | Premium Apparels</title>
+    <title>Green Mold Seed Shop | Benih Unggul Nusantara</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --primary-green: #27ae60;
+            --dark-green: #1b5e20;
+            --soft-white: rgba(255, 255, 255, 0.9);
+        }
+
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             text-align: center;
-            /* Background Gradasi Linear yang Menarik */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Background bertema alam dengan gradasi hijau */
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             background-attachment: fixed;
             margin: 0;
             padding: 40px 20px;
             color: white;
         }
 
+        /* Dekorasi tambahan untuk kesan natural */
+        body::before {
+            content: "🌿";
+            position: fixed;
+            top: 10%;
+            left: 5%;
+            font-size: 5rem;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
         h1 { 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            font-size: 2.8em;
+        }
+
+        .tagline {
             margin-bottom: 40px;
-            font-size: 2.5em;
+            font-style: italic;
+            font-weight: 300;
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
-            max-width: 1100px;
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .produk {
-            /* Efek Semi-Transparan (Glassmorphism) */
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--soft-white);
             backdrop-filter: blur(10px);
-            padding: 25px;
-            width: 260px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            color: #333; /* Warna teks di dalam kartu */
+            padding: 20px;
+            width: 280px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #333;
+            border: 2px solid rgba(255,255,255,0.2);
+            overflow: hidden;
         }
 
         .produk:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-20px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        /* Foto Produk */
+        .img-placeholder {
+            width: 100%;
+            height: 180px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            object-fit: cover;
         }
 
         h3 { 
-            margin: 15px 0 10px; 
-            font-size: 1.4em;
-            color: #2d3436;
+            margin: 10px 0 5px; 
+            font-size: 1.5em;
+            color: var(--dark-green);
+        }
+
+        .deskripsi {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+            min-height: 40px;
         }
 
         .harga {
-            font-weight: bold;
-            color: #2ecc71;
-            font-size: 1.3em;
-            margin-bottom: 25px;
+            font-weight: 800;
+            color: #e67e22; /* Warna orange agar kontras dengan hijau */
+            font-size: 1.4em;
+            margin-bottom: 20px;
         }
 
         button {
-            background: #25d366;
+            background: var(--primary-green);
             color: white;
-            padding: 14px 20px;
+            padding: 15px 20px;
             border: none;
-            border-radius: 50px; /* Tombol lebih bulat agar modern */
+            border-radius: 15px;
             cursor: pointer;
             font-weight: bold;
             width: 100%;
-            font-size: 1em;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             transition: all 0.3s;
         }
 
         button:hover {
-            background: #128c7e;
-            transform: scale(1.05);
+            background: var(--dark-green);
+            letter-spacing: 1px;
+        }
+
+        button::before {
+            content: "🛒";
         }
 
         a { text-decoration: none; }
 
-        /* Label Diskon atau Tag (Opsional) */
         .badge {
-            background: #ff7675;
+            background: #27ae60;
             color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
             margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: 60px;
+            font-size: 0.9em;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
 
-    <h1>🛍 Toko Online Indra</h1>
+    <h1>🌱 Green Mold Seed Shop</h1>
+    <p class="tagline">"Menanam Harapan, Menuai Kualitas"</p>
 
     <div class="container">
         
         <div class="produk">
-            <span class="badge">Best Seller</span>
-            <h3>Kaos Polos Premium</h3>
-            <p class="harga">Rp75.000</p>
-            <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20mau%20pesan%20Kaos%20Polos">
-                <button>Pesan via WhatsApp</button>
+            <span class="badge">Mudah Tumbuh</span>
+            <div class="img-placeholder">🥬</div>
+            <h3>Benih Selada Hidroponik</h3>
+            <p class="deskripsi">Isi 500+ butir. Tingkat germinasi 95%. Cocok untuk pemula.</p>
+            <p class="harga">Rp15.000</p>
+            <a href="https://wa.me/6282113864543?text=Halo%20Admin%20Green%20Mold,%20saya%20mau%20pesan%20Benih%20Selada">
+                <button>Pesan Sekarang</button>
             </a>
         </div>
 
         <div class="produk">
-            <span class="badge">Hot Item</span>
-            <h3>Hoodie Premium</h3>
-            <p class="harga">Rp150.000</p>
-            <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20mau%20pesan%20Hoodie">
-                <button>Pesan via WhatsApp</button>
+            <span class="badge">Unggulan</span>
+            <div class="img-placeholder">🌶️</div>
+            <h3>Benih Cabai Rawit</h3>
+            <p class="deskripsi">Varian tahan hama dan cuaca ekstrem. Hasil panen melimpah.</p>
+            <p class="harga">Rp25.000</p>
+            <a href="https://wa.me/6282113864543?text=Halo%20Admin%20Green%20Mold,%20saya%20mau%20pesan%20Benih%20Cabai">
+                <button>Pesan Sekarang</button>
             </a>
         </div>
 
         <div class="produk">
-            <span class="badge">New Arrival</span>
-            <h3>Celana Chino</h3>
-            <p class="harga">Rp120.000</p>
-            <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20mau%20pesan%20Celana%20Chino">
-                <button>Pesan via WhatsApp</button>
+            <span class="badge">Limited</span>
+            <div class="img-placeholder">🌻</div>
+            <h3>Benih Bunga Matahari</h3>
+            <p class="deskripsi">Jenis 'Giant Yellow'. Kelopak besar dan batang kokoh.</p>
+            <p class="harga">Rp30.000</p>
+            <a href="https://wa.me/6282113864543?text=Halo%20Admin%20Green%20Mold,%20saya%20mau%20pesan%20Benih%20Bunga%20Matahari">
+                <button>Pesan Sekarang</button>
+            </a>
+        </div>
+
+        <div class="produk">
+            <span class="badge">Super Food</span>
+            <div class="img-placeholder">🍅</div>
+            <h3>Benih Tomat Cherry</h3>
+            <p class="deskripsi">Rasa manis, kulit tipis. Sangat produktif dalam pot.</p>
+            <p class="harga">Rp20.000</p>
+            <a href="https://wa.me/6282113864543?text=Halo%20Admin%20Green%20Mold,%20saya%20mau%20pesan%20Benih%20Tomat%20Cherry">
+                <button>Pesan Sekarang</button>
             </a>
         </div>
 
     </div>
+
+    <footer>
+        &copy; 2026 Green Mold Seed Shop. Dikirim dari jantung pertanian Indonesia.
+    </footer>
 
 </body>
 </html>
