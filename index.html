@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Green Mold Seed Shop | Benih Unggul</title>
+    <title>Green Mold Seed Shop | Benih & Bibit Unggul</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -18,42 +18,41 @@
             margin: 0;
             padding: 0;
             text-align: center;
-            /* Background gradasi hijau yang lebih deep */
             background: linear-gradient(135deg, #0f9b0f 0%, #2ecc71 100%);
             background-attachment: fixed;
             color: white;
         }
 
-        /* Navigasi Sederhana */
+        /* Navigasi */
         nav {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
             padding: 15px;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 600; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 600; font-size: 0.9em; }
 
         header { padding: 60px 20px; }
-        h1 { font-size: 3em; margin: 0; text-shadow: 2px 4px 10px rgba(0,0,0,0.2); }
-        .tagline { opacity: 0.9; font-style: italic; }
+        h1 { font-size: 2.5em; margin: 0; text-shadow: 2px 4px 10px rgba(0,0,0,0.2); }
+        .tagline { opacity: 0.9; font-style: italic; margin-top: 10px; }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto 50px;
             padding: 20px;
         }
 
-        /* Kartu Produk yang Diperbarui */
+        /* Kartu Produk */
         .produk {
             background: var(--glass);
-            width: 280px;
-            border-radius: 30px;
+            width: 300px;
+            border-radius: 25px;
             overflow: hidden;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             transition: all 0.4s ease;
@@ -61,16 +60,13 @@
             position: relative;
         }
 
-        .produk:hover {
-            transform: translateY(-15px) scale(1.02);
-        }
+        .produk:hover { transform: translateY(-10px); }
 
-        /* Label di pojok gambar */
         .badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: var(--primary);
+            background: var(--dark);
             color: white;
             padding: 5px 12px;
             border-radius: 20px;
@@ -81,111 +77,108 @@
 
         .produk img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            transition: 0.5s;
         }
 
-        .produk:hover img { transform: scale(1.1); }
-
-        .content { padding: 20px; }
-        h3 { margin: 10px 0; color: var(--dark); }
-        .desc { font-size: 0.85em; color: #666; height: 40px; }
+        .content { padding: 20px; text-align: left; }
+        h3 { margin: 5px 0; color: var(--dark); font-size: 1.2em; }
+        .desc { font-size: 0.85em; color: #555; height: 45px; margin-bottom: 10px; }
         
         .harga {
-            font-size: 1.4em;
+            font-size: 1.3em;
             font-weight: 700;
-            color: var(--accent);
-            margin: 15px 0;
+            color: var(--primary);
+            margin: 10px 0;
         }
 
         .btn-wa {
             background: #25d366;
             color: white;
             display: block;
+            text-align: center;
             padding: 12px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
 
-        .btn-wa:hover {
-            background: #128c7e;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
-        }
+        .btn-wa:hover { background: #128c7e; }
 
-        /* Bagian Lokasi */
+        /* Lokasi */
         .maps-box {
             background: var(--glass);
             max-width: 900px;
             margin: 40px auto;
-            padding: 20px;
+            padding: 30px;
             border-radius: 30px;
             color: #333;
         }
-        iframe { width: 100%; height: 300px; border-radius: 20px; border: none; }
+        iframe { width: 100%; height: 350px; border-radius: 20px; border: none; margin-top: 20px; }
 
-        footer { padding: 50px; opacity: 0.8; font-size: 0.9em; }
+        footer { padding: 40px; opacity: 0.8; font-size: 0.8em; border-top: 1px solid rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="#">Beranda</a>
-        <a href="#koleksi">Koleksi Benih</a>
-        <a href="#lokasi">Lokasi</a>
+        <a href="#koleksi">Produk Kami</a>
+        <a href="#lokasi">Lokasi Toko</a>
     </nav>
 
     <header>
         <h1>🌱 Green Mold Seed Shop</h1>
-        <p class="tagline">"Menanam Harapan, Menuai Kualitas"</p>
+        <p class="tagline">"Menanam Harapan, Menuai Kualitas Terbaik"</p>
     </header>
 
     <div class="container" id="koleksi">
+        
+        <div class="produk">
+            <span class="badge">BEST SELLER</span>
+            <img src="https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500" alt="Benih Cabai">
+            <div class="content">
+                <h3>Benih Cabai Rawit</h3>
+                <p class="desc">Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.</p>
+                <p class="harga">Rp25.000</p>
+                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20ingin%20pesan%20Benih%20Cabai" class="btn-wa">Pesan via WhatsApp</a>
+            </div>
+        </div>
+
         <div class="produk">
             <span class="badge">MUDAH TUMBUH</span>
-            <img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=500" alt="Selada">
+            <img src="https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500" alt="Benih Terong">
             <div class="content">
-                <h3>Selada Hidroponik</h3>
-                <p class="desc">Isi 500+ butir. Germinasi 95%. Sangat segar.</p>
+                <h3>Benih Terong Ungu</h3>
+                <p class="desc">Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.</p>
                 <p class="harga">Rp15.000</p>
-                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20mau%20pesan%20Selada" class="btn-wa">Pesan Sekarang</a>
+                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20ingin%20pesan%20Benih%20Terong" class="btn-wa">Pesan via WhatsApp</a>
             </div>
         </div>
 
         <div class="produk">
-            <span class="badge">UNGGULAN</span>
-            <img src="https://images.unsplash.com/photo-1588218105549-84fa6054888d?q=80&w=500" alt="Cabai">
+            <span class="badge">INVESTASI</span>
+            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500" alt="Bibit Kehutanan">
             <div class="content">
-                <h3>Cabai Rawit Merah</h3>
-                <p class="desc">Varian tahan hama. Hasil panen sangat pedas.</p>
-                <p class="harga">Rp25.000</p>
-                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20mau%20pesan%20Cabai" class="btn-wa">Pesan Sekarang</a>
+                <h3>Bibit Jati & Sengon</h3>
+                <p class="desc">Bibit kehutanan kualitas premium (Jati Solomon/Sengon) untuk investasi masa depan.</p>
+                <p class="harga">Mulai Rp7.500</p>
+                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20saya%20ingin%20tanya%20stok%20Bibit%20Kehutanan" class="btn-wa">Tanya Stok Bibit</a>
             </div>
         </div>
 
-        <div class="produk">
-            <span class="badge">LIMITED</span>
-            <img src="file:///C:/Users/ACER/Pictures/Predator/2024_Predator_Default_3840x2400.jpg" alt="Matahari">
-            <div class="content">
-                <h3>Bunga Matahari Giant</h3>
-                <p class="desc">Jenis raksasa, warna kuning cerah mempesona.</p>
-                <p class="harga">Rp30.000</p>
-                <a href="https://wa.me/6282113864543?text=Halo%20Indra,%20mau%20pesan%20Matahari" class="btn-wa">Pesan Sekarang</a>
-            </div>
-        </div>
     </div>
 
     <div class="maps-box" id="lokasi">
-        <h2>📍 Lokasi Kami</h2>
-        <p>Kunjungi kebun kami di Lampung</p>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127066.25365516766!2d105.1884877395066!3d-5.413155734208889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40db2463428231%3A0x6a053075276e033d!2sBandar%20Lampung%2C%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"></iframe>
+        <h2>📍 Lokasi Kebun Kami</h2>
+        <p>Silahkan kunjungi lokasi kami di Lampung untuk melihat bibit secara langsung.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127103.97544320214!2d105.18136369527376!3d-5.418042589025064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40d9633e970a2f%3A0xc30349a3746777a8!2sBandar%20Lampung%2C%20Kota%20Bandar%20Lampung%2C%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"></iframe>
     </div>
 
     <footer>
-        &copy; 2026 Green Mold Seed Shop | Powered by GitHub
+        <p>© 2026 Green Mold Seed Shop - Bandar Lampung</p>
+        <p>Dikembangkan dengan ❤️ untuk Petani Indonesia</p>
     </footer>
 
 </body>
