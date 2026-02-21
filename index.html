@@ -20,17 +20,18 @@
             background-attachment: fixed; color: white;
         }
 
+        /* Navigasi */
         nav {
-            background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
             padding: 15px; position: sticky; top: 0; z-index: 1000;
             display: flex; justify-content: center; align-items: center; gap: 20px;
         }
         nav a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9em; }
 
-        /* Tombol Keranjang di Nav */
         #cart-btn {
             background: var(--accent); border: none; padding: 8px 15px;
             border-radius: 20px; color: white; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         header { padding: 60px 20px; }
@@ -57,34 +58,40 @@
         }
 
         .body { padding: 20px; }
-        .title { font-weight: 700; font-size: 1.2em; color: var(--dark); }
-        .desc { font-size: 0.85em; color: #555; margin: 10px 0; min-height: 40px; }
+        .title { font-weight: 700; font-size: 1.2em; color: var(--dark); margin-bottom: 5px;}
+        .desc { font-size: 0.85em; color: #555; margin: 10px 0; min-height: 40px; line-height: 1.4; }
         .harga { font-size: 1.3em; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
 
         .btn {
-            display: block; width: 100%; padding: 10px; margin-top: 8px;
+            display: block; width: 100%; padding: 12px; margin-top: 8px;
             border-radius: 12px; border: none; font-weight: bold; cursor: pointer;
-            text-decoration: none; text-align: center; transition: 0.3s;
+            text-decoration: none; text-align: center; transition: 0.3s; box-sizing: border-box;
         }
         .add { background: var(--primary); color: white; }
-        .direct { background: #eee; color: #333; font-size: 0.8em; }
+        .add:hover { background: var(--dark); }
+        .direct { background: #f0f0f0; color: #333; font-size: 0.8em; }
 
         /* MODAL KERANJANG */
         #cart-modal {
-            position: fixed; top: 0; right: 0; width: 350px; height: 100%;
+            position: fixed; top: 0; right: 0; width: 320px; height: 100%;
             background: white; color: #333; z-index: 2000; padding: 20px;
             box-shadow: -5px 0 15px rgba(0,0,0,0.2);
             display: none; flex-direction: column; text-align: left;
+            box-sizing: border-box;
         }
         #cart-modal.active { display: flex; }
-        .cart-row { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .cart-row img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
-        .close-btn { background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; float: right; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .cart-row { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; align-items: center; }
+        .cart-row img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
+        .close-btn { background: #ff4757; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+
+        .qty-controls { display: flex; gap: 5px; }
+        .qty-controls button { width: 25px; height: 25px; cursor: pointer; background: #eee; border: 1px solid #ddd; border-radius: 4px; }
 
         .maps-box { background: var(--glass); max-width: 900px; margin: 40px auto; padding: 30px; border-radius: 30px; color: #333; }
-        iframe { width: 100%; height: 300px; border-radius: 20px; border: none; }
+        iframe { width: 100%; height: 300px; border-radius: 20px; border: none; margin-top: 15px;}
 
-        footer { padding: 40px; opacity: 0.8; font-size: 0.8em; }
+        footer { padding: 40px; opacity: 0.8; font-size: 0.8em; border-top: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -93,7 +100,7 @@
         <a href="#">Beranda</a>
         <a href="#koleksi">Produk</a>
         <a href="#lokasi">Lokasi</a>
-        <button id="cart-btn">Keranjang (0)</button>
+        <button id="cart-btn" onclick="openCart()">Keranjang (0)</button>
     </nav>
 
     <header>
@@ -101,21 +108,25 @@
         <p class="tagline">"Menanam Harapan, Menuai Kualitas Terbaik"</p>
     </header>
 
-    <div class="container produk-grid" id="koleksi"></div>
+    <div class="container" id="produk-grid"></div>
 
     <div class="maps-box" id="lokasi">
-        <h2>📍 Lokasi Kebun</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127106.38260196237!2d105.188481!3d-5.397139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40d9370868f029%3A0x60039233633d7b43!2sBandar%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000"></iframe>
+        <h2>📍 Lokasi Kebun Kami</h2>
+        <p>Lampung, Indonesia</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127103.5532585935!2d105.18431872145398!3d-5.417244976451684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40db238a20993d%3A0x4039d80b220d040!2sBandar%20Lampung%2C%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"></iframe>
     </div>
 
     <div id="cart-modal">
-        <button class="close-btn" onclick="closeCart()">X Tutup</button>
-        <h3>Pesanan Anda</h3>
+        <div class="cart-header">
+            <h3>🛒 Pesanan</h3>
+            <button class="close-btn" onclick="closeCart()">Tutup</button>
+        </div>
         <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <hr>
-        <h4>Total: <span id="cart-total">Rp0</span></h4>
-        <button id="checkout" class="btn add">Checkout WA</button>
-        <button id="clear-cart" class="btn direct">Kosongkan</button>
+        <div style="padding-top: 15px; border-top: 2px solid #eee;">
+            <h4 style="margin: 0 0 10px 0;">Total: <span id="cart-total" style="color: var(--primary);">Rp0</span></h4>
+            <button id="checkout" class="btn add" onclick="checkoutWhatsApp()">Checkout via WA</button>
+            <button id="clear-cart" class="btn direct" onclick="clearCart()">Kosongkan Keranjang</button>
+        </div>
     </div>
 
     <footer>
@@ -123,19 +134,24 @@
     </footer>
 
     <script>
+        // Data Produk
         const PRODUCTS = [
-            {id:1, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu. Buah lebat & pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500', badge:'BEST SELLER'},
-            {id:2, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan sangat cepat.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500', badge:'MUDAH TUMBUH'},
-            {id:3, title:'Bibit Jati & Sengon', desc:'Bibit premium untuk investasi jangka panjang.', price:7500, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500', badge:'INVESTASI'}
+            {id:1, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500', badge:'BEST SELLER'},
+            {id:2, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500', badge:'MUDAH TUMBUH'},
+            {id:3, title:'Bibit Jati & Sengon', desc:'Bibit kehutanan kualitas premium (Jati Solomon/Sengon) untuk investasi masa depan.', price:7500, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500', badge:'INVESTASI'}
         ];
 
         let CART = [];
         const phone = '6282113864543';
 
-        function formatIDR(n){ return 'Rp' + n.toLocaleString('id-ID'); }
+        // Fungsi format Rupiah
+        function formatIDR(n){ 
+            return 'Rp' + n.toLocaleString('id-ID'); 
+        }
 
+        // Tampilkan Produk ke HTML
         function renderProducts(){
-            const grid = document.querySelector('.produk-grid');
+            const grid = document.getElementById('produk-grid');
             grid.innerHTML = PRODUCTS.map(p => `
                 <article class="card">
                     <img src="${p.img}" alt="${p.title}">
@@ -145,23 +161,26 @@
                         <div class="desc">${p.desc}</div>
                         <div class="harga">${formatIDR(p.price)}</div>
                         <button class="btn add" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
-                        <a class="btn direct" href="https://wa.me/${phone}?text=Halo, saya mau pesan: ${p.title}" target="_blank">Pesan Langsung</a>
+                        <a class="btn direct" href="https://wa.me/${phone}?text=Halo, saya ingin tanya produk: ${p.title}" target="_blank">Pesan Langsung</a>
                     </div>
                 </article>
             `).join('');
         }
 
+        // Fungsi Keranjang
         function addToCart(id){
             const prod = PRODUCTS.find(p => p.id === id);
             const existing = CART.find(c => c.id === id);
-            if(existing) existing.qty++;
-            else CART.push({...prod, qty: 1});
+            if(existing) {
+                existing.qty++;
+            } else {
+                CART.push({...prod, qty: 1});
+            }
             updateUI();
-            alert(prod.title + " ditambah ke keranjang!");
         }
 
         function updateUI(){
-            const count = CART.reduce((s, i) => s + i.qty, 0);
+            const count = CART.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cart-btn').textContent = `Keranjang (${count})`;
             renderCartItems();
         }
@@ -169,7 +188,7 @@
         function renderCartItems(){
             const container = document.getElementById('cart-items');
             if(CART.length === 0){
-                container.innerHTML = '<p>Keranjang kosong.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#999;">Keranjang masih kosong.</p>';
                 document.getElementById('cart-total').textContent = 'Rp0';
                 return;
             }
@@ -177,14 +196,18 @@
                 <div class="cart-row">
                     <img src="${item.img}">
                     <div style="flex-grow:1">
-                        <div style="font-size:0.9em; font-weight:bold">${item.title}</div>
-                        <div style="font-size:0.8em">${formatIDR(item.price)} x ${item.qty}</div>
+                        <div style="font-size:0.85em; font-weight:bold">${item.title}</div>
+                        <div style="font-size:0.8em; color:var(--primary); font-weight:bold">${formatIDR(item.price)}</div>
                     </div>
-                    <button onclick="changeQty(${item.id}, -1)">-</button>
-                    <button onclick="changeQty(${item.id}, 1)">+</button>
+                    <div class="qty-controls">
+                        <button onclick="changeQty(${item.id}, -1)">-</button>
+                        <span style="font-size:0.9em; min-width:15px; text-align:center">${item.qty}</span>
+                        <button onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
                 </div>
             `).join('');
-            const total = CART.reduce((s, i) => s + (i.price * i.qty), 0);
+            
+            const total = CART.reduce((sum, item) => sum + (item.price * item.qty), 0);
             document.getElementById('cart-total').textContent = formatIDR(total);
         }
 
@@ -192,25 +215,34 @@
             const item = CART.find(c => c.id === id);
             if(item) {
                 item.qty += delta;
-                if(item.qty <= 0) CART = CART.filter(c => c.id !== id);
+                if(item.qty <= 0) {
+                    CART = CART.filter(c => c.id !== id);
+                }
             }
             updateUI();
+        }
+
+        function clearCart(){
+            if(confirm('Kosongkan semua pesanan?')) {
+                CART = [];
+                updateUI();
+            }
         }
 
         function openCart(){ document.getElementById('cart-modal').classList.add('active'); }
         function closeCart(){ document.getElementById('cart-modal').classList.remove('active'); }
 
-        document.getElementById('cart-btn').addEventListener('click', openCart);
-        document.getElementById('clear-cart').addEventListener('click', () => { CART = []; updateUI(); });
-        
-        document.getElementById('checkout').addEventListener('click', () => {
-            if(CART.length === 0) return alert('Keranjang kosong!');
-            const lines = CART.map(i => `${i.qty}x ${i.title} (${formatIDR(i.price)})`);
-            const total = formatIDR(CART.reduce((s, i) => s + (i.price * i.qty), 0));
-            const msg = `Halo Green Mold,\nSaya ingin memesan:\n\n${lines.join('\n')}\n\nTotal: ${total}`;
+        function checkoutWhatsApp(){
+            if(CART.length === 0) return alert('Keranjang anda masih kosong!');
+            
+            const lines = CART.map(i => `- ${i.title} (${i.qty}x)`);
+            const total = formatIDR(CART.reduce((sum, i) => sum + (i.price * i.qty), 0));
+            const msg = `Halo Green Mold Seed Shop,\nSaya ingin memesan:\n\n${lines.join('\n')}\n\nTotal Harga: *${total}*\n\nMohon info detail pembayarannya. Terima kasih.`;
+            
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-        });
+        }
 
+        // Jalankan saat halaman dibuka
         renderProducts();
     </script>
 </body>
