@@ -176,6 +176,116 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127103.97544320214!2d105.18136369527376!3d-5.418042589025064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40d9633e970a2f%3A0xc30349a3746777a8!2sBandar%20Lampung%2C%20Kota%20Bandar%20Lampung%2C%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"></iframe>
     </div>
 
+    const PRODUCTS = [
+  {id:1,title:'Benih Cabai Rawit',desc:'Varian unggul tahan layu. Buah lebat & pedas.',price:25000,img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500',badge:'BEST SELLER'},
+  {id:2,title:'Benih Terong Ungu',desc:'Isi 150+ butir. Pertumbuhan cepat.',price:15000,img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500',badge:'MUDAH TUMBUH'},
+  {id:3,title:'Bibit Jati & Sengon',desc:'Bibit premium untuk investasi jangka panjang.',price:7500,img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500',badge:'INVESTASI'}
+];
+
+const CART = [];
+const phone = '6282113864543';
+
+function formatIDR(n){return 'Rp'+n.toLocaleString('id-ID')}
+
+function renderProducts(){
+  const grid = document.querySelector('.produk-grid');
+  grid.innerHTML = PRODUCTS.map(p=>`
+    <article class="card" data-id="${p.id}">
+      <div style="position:relative">
+        <img src="${p.img}" alt="${p.title}" loading="lazy">
+        <span class="badge">${p.badge}</span>
+      </div>
+      <div class="body">
+        <div class="title">${p.title}</div>
+        <div class="desc">${p.desc}</div>
+        <div class="harga">${formatIDR(p.price)}</div>
+        <div class="actions">
+          <button class="btn add" data-action="add" data-id="${p.id}">Tambah ke Keranjang</button>
+          <a class="btn direct" href="https://wa.me/${phone}?text=${encodeURIComponent('Halo, saya mau pesan: '+p.title)}" target="_blank">Pesan via WA</a>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function updateCartCount(){
+  const btn = document.getElementById('cart-btn');
+  btn.textContent = `Keranjang (${CART.reduce((s,i)=>s+i.qty,0)})`;
+}
+
+function openCart(){
+  const modal = document.getElementById('cart-modal');
+  modal.setAttribute('aria-hidden','false');
+  renderCartItems();
+}
+function closeCart(){
+  const modal = document.getElementById('cart-modal');
+  modal.setAttribute('aria-hidden','true');
+}
+
+function addToCart(id){
+  const prod = PRODUCTS.find(p=>p.id==id);
+  const existing = CART.find(c=>c.id==id);
+  if(existing) existing.qty++;
+  else CART.push({id:prod.id,title:prod.title,price:prod.price,img:prod.img,qty:1});
+  updateCartCount();
+}
+
+function renderCartItems(){
+  const container = document.getElementById('cart-items');
+  if(CART.length===0){ container.innerHTML = 'Belum ada produk.'; document.getElementById('cart-total').textContent = formatIDR(0); return; }
+  container.innerHTML = CART.map(item=>`
+    <div class="cart-row" data-id="${item.id}">
+      <img src="${item.img}" alt="${item.title}">
+      <div class="meta">
+        <div style="font-weight:700">${item.title}</div>
+        <div style="color:#666">${formatIDR(item.price)} × ${item.qty}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button data-action="inc" data-id="${item.id}">+</button>
+        <button data-action="dec" data-id="${item.id}">−</button>
+      </div>
+    </div>
+  `).join('');
+  const total = CART.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cart-total').textContent = formatIDR(total);
+}
+
+function changeQty(id,delta){
+  const item = CART.find(c=>c.id==id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) { const idx = CART.findIndex(c=>c.id==id); CART.splice(idx,1); }
+  renderCartItems(); updateCartCount();
+}
+
+function clearCart(){ CART.length = 0; renderCartItems(); updateCartCount(); }
+
+function checkoutWhatsApp(){
+  if(CART.length===0) return alert('Keranjang kosong. Tambahkan produk terlebih dahulu.');
+  const lines = CART.map(i=>`${i.qty}x ${i.title} (${formatIDR(i.price)})`);
+  const total = formatIDR(CART.reduce((s,i)=>s+(i.price*i.qty),0));
+  const msg = `Halo, saya ingin memesan:\n${lines.join('\n')}\nTotal: ${total}`;
+  const url = `https://wa.me/${phone}?text=`+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+// Event binding
+document.addEventListener('click',e=>{
+  const action = e.target.dataset.action;
+  if(action==='add'){ addToCart(Number(e.target.dataset.id)); }
+  if(action==='inc'){ changeQty(Number(e.target.dataset.id),1); }
+  if(action==='dec'){ changeQty(Number(e.target.dataset.id),-1); }
+});
+
+// UI controls
+document.getElementById('cart-btn').addEventListener('click',openCart);
+document.querySelector('.close-btn').addEventListener('click',closeCart);
+document.getElementById('clear-cart').addEventListener('click',()=>{ if(confirm('Kosongkan keranjang?')) clearCart(); });
+document.getElementById('checkout').addEventListener('click',checkoutWhatsApp);
+
+renderProducts(); updateCartCount();
+
     <footer>
         <p>© 2026 Green Mold Seed Shop - Bandar Lampung</p>
         <p>Dikembangkan dengan ❤️ untuk Petani Indonesia</p>
