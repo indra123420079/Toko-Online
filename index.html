@@ -341,44 +341,63 @@
     </footer>
 
     <script>
-        // Data Produk
+        // Data Produk - Fokus pada Kehutanan
         const PRODUCTS = [
-            {id:1, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500', badge:'BEST SELLER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi'},
-            {id:2, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500', badge:'MUDAH TUMBUH', category:'sayuran', difficulty:'mudah', season:'basah', yield:'sedang'},
-            {id:3, title:'Bibit Jati & Sengon', desc:'Bibit kehutanan kualitas premium (Jati Solomon/Sengon) untuk investasi masa depan.', price:7500, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500', badge:'INVESTASI', category:'kehutanan', difficulty:'sedang', season:'universal', yield:'panjang'},
-            {id:4, title:'Benih Tomat Cherry', desc:'Buah kecil manis, cocok untuk hidroponik. Produktivitas tinggi.', price:18000, img:'https://images.unsplash.com/photo-1546470427-e9e826f9b14c?q=80&w=500', badge:'POPULER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi'},
-            {id:5, title:'Bibit Durian Musang King', desc:'Varietas durian premium dengan rasa manis dan tekstur lembut.', price:50000, img:'https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=500', badge:'PREMIUM', category:'buah', difficulty:'sulit', season:'basah', yield:'panjang'},
-            {id:6, title:'Benih Kangkung Hydro', desc:'Untuk budidaya hidroponik. Pertumbuhan super cepat, panen 25-30 hari.', price:12000, img:'https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=500', badge:'CEPAT PANEN', category:'sayuran', difficulty:'mudah', season:'universal', yield:'sangat tinggi'},
-            {id:7, title:'Bibit Alpukat Mentega', desc:'Buah berkualitas tinggi, daging lembut dan rasa manis. Cocok untuk lahan sempit.', price:35000, img:'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=500', badge:'UNGGULAN', category:'buah', difficulty:'sedang', season:'universal', yield:'panjang'},
-            {id:8, title:'Benih Bayam Hijau', desc:'Kaya nutrisi, mudah tumbuh. Cocok untuk urban farming.', price:8000, img:'https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=500', badge:'NUTRISI', category:'sayuran', difficulty:'mudah', season:'universal', yield:'sedang'}
+            // Produk Kehutanan Unggulan
+            {id:1, title:'Bibit Jati Solomon', desc:'Bibit jati super unggul untuk investasi jangka panjang. Tumbuh kokoh, kayu berkualitas tinggi.', price:15000, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'INVESTASI PREMIUM', category:'kehutanan', difficulty:'sedang', season:'universal', yield:'panjang', type:'pohon'},
+            {id:2, title:'Bibit Sengon Unggul', desc:'Bibit sengon cepat tumbuh, serat kayu kuat. Cocok untuk reboisasi dan bisnis pulp.', price:8000, img:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'CEPAT TUMBUH', category:'kehutanan', difficulty:'mudah', season:'universal', yield:'panjang', type:'pohon'},
+            {id:3, title:'Bibit Mahoni Premium', desc:'Bibit mahoni berkualitas tinggi, kayu mahal untuk furniture. Investasi menguntungkan.', price:25000, img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'KAYU MAHAL', category:'kehutanan', difficulty:'sulit', season:'basah', yield:'panjang', type:'pohon'},
+            {id:4, title:'Bibit Akasia Mangium', desc:'Bibit akasia untuk industri pulp dan kertas. Produktivitas tinggi, cocok skala besar.', price:12000, img:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'INDUSTRI', category:'kehutanan', difficulty:'sedang', season:'universal', yield:'panjang', type:'pohon'},
+            {id:5, title:'Bibit Pinus Merkusii', desc:'Bibit pinus asli Indonesia untuk reboisasi pegunungan. Tahan dingin dan kering.', price:18000, img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'PEGUNUNGAN', category:'kehutanan', difficulty:'sulit', season:'kering', yield:'panjang', type:'pohon'},
+            
+            // Produk Sayuran Pendamping
+            {id:6, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'BEST SELLER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi', type:'benih'},
+            {id:7, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'MUDAH TUMBUH', category:'sayuran', difficulty:'mudah', season:'basah', yield:'sedang', type:'benih'},
+            {id:8, title:'Benih Tomat Cherry', desc:'Buah kecil manis, cocok untuk hidroponik. Produktivitas tinggi.', price:18000, img:'https://images.unsplash.com/photo-1546470427-e9e826f9b14c?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'POPULER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi', type:'benih'},
+            
+            // Produk Buah untuk Diversifikasi
+            {id:9, title:'Bibit Durian Musang King', desc:'Varietas durian premium dengan rasa manis dan tekstur lembut.', price:50000, img:'https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'PREMIUM', category:'buah', difficulty:'sulit', season:'basah', yield:'panjang', type:'bibit'},
+            {id:10, title:'Bibit Alpukat Mentega', desc:'Buah berkualitas tinggi, daging lembut dan rasa manis. Cocok untuk lahan sempit.', price:35000, img:'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=500&auto=format&fit=crop&w=500&h=300', badge:'UNGGULAN', category:'buah', difficulty:'sedang', season:'universal', yield:'panjang', type:'bibit'}
         ];
 
-        // AI Knowledge Base
+        // AI Knowledge Base - Enhanced untuk Kehutanan
         const AI_RESPONSES = {
             greetings: [
-                "Halo! Selamat datang di Green Mold Seed Shop! 🌱 Ada yang bisa saya bantu?",
-                "Hai! Saya AI assistant toko kami. Apa yang ingin Anda ketahui tentang produk kami?",
-                "Hello! Saya siap membantu Anda memilih benih dan bibit terbaik untuk kebun Anda! 😊"
+                "Halo! Selamat datang di Green Mold Seed Shop! 🌱 Kami spesialis bibit kehutanan. Ada yang bisa saya bantu?",
+                "Hai! Saya AI assistant toko bibit kehutanan terbaik. Apa yang ingin Anda ketahui tentang produk kami?",
+                "Hello! Kami fokus pada bibit pohon berkualitas untuk investasi jangka panjang. Apa yang bisa saya bantu hari ini? 🌳"
             ],
             products: {
                 cabai: "Benih cabai rawit kami sangat direkomendasikan! Tahan layu bakteri, hasil melimpah, dan sangat pedas. Cocok untuk iklim tropis Indonesia.",
                 terong: "Benih terong ungu kami mudah tumbuh dan hasilnya banyak. Buahnya panjang dan berkualitas tinggi. Ideal untuk pemula!",
-                jati: "Bibit jati dan sengon adalah investasi jangka panjang. Tumbuh kokoh dan bernilai ekonomis tinggi di masa depan.",
+                jati: "Bibit jati Solomon adalah investasi jangka panjang terbaik! Tumbuh kokoh, kayu berkualitas tinggi untuk furniture dan konstruksi. Harga mulai Rp 15.000 per bibit.",
+                sengon: "Bibit sengon unggul cepat tumbuh dalam 3-5 tahun. Cocok untuk reboisasi, pulp, dan energi biomassa. Harga terjangkau Rp 8.000.",
+                mahoni: "Bibit mahoni premium untuk kayu mahal. Investasi menguntungkan dengan nilai jual tinggi di masa depan. Rp 25.000 per bibit.",
+                akasia: "Bibit akasia mangium untuk industri pulp dan kertas. Produktivitas tinggi, cocok untuk skala besar. Rp 12.000.",
+                pinus: "Bibit pinus merkussii asli Indonesia. Tahan dingin dan kering, cocok untuk daerah pegunungan. Rp 18.000.",
                 tomat: "Tomat cherry cocok untuk hidroponik dan balkon. Manis, produktif, dan mudah dirawat.",
                 durian: "Durian Musang King adalah varietas premium. Rasa manis, tekstur lembut, cocok untuk bisnis.",
-                kangkung: "Kangkung hidroponik panen super cepat! Cocok untuk urban farming dan pemula."
+                alpukat: "Bibit alpukat mentega menghasilkan buah berkualitas tinggi dengan daging lembut dan rasa manis."
             },
             recommendations: {
-                pemula: "Untuk pemula, saya rekomendasikan benih terong ungu atau tomat cherry. Mudah tumbuh dan hasilnya memuaskan!",
-                pro: "Untuk petani berpengalaman, bibit durian atau jati sangat cocok untuk investasi jangka panjang.",
-                cepat: "Ingin panen cepat? Coba benih kangkung hidroponik atau cabai rawit. Panen dalam 25-30 hari!",
-                bisnis: "Untuk bisnis, durian Musang King atau cabai rawit sangat menguntungkan dengan permintaan tinggi."
+                pemula: "Untuk pemula, saya rekomendasikan bibit sengon atau akasia. Mudah tumbuh, cepat panen, dan hasilnya memuaskan!",
+                pro: "Untuk petani berpengalaman, bibit jati Solomon atau mahoni sangat cocok untuk investasi jangka panjang.",
+                cepat: "Ingin panen cepat? Bibit sengon tumbuh dalam 3-5 tahun, akasia dalam 4-6 tahun. Lebih cepat dari jati!",
+                bisnis: "Untuk bisnis, bibit akasia mangium atau sengon sangat menguntungkan dengan permintaan tinggi dari industri pulp.",
+                kehutanan: "Fokus kehutanan? Kami punya bibit jati, sengon, mahoni, akasia, dan pinus. Semua berkualitas tinggi untuk investasi jangka panjang!"
             },
             care: {
-                penyiraman: "Penyiraman tergantung jenis tanaman. Sayuran butuh air cukup tapi tidak tergenang. Pohon seperti jati lebih tahan kekeringan.",
-                pupuk: "Gunakan pupuk organik untuk hasil terbaik. Kami rekomendasikan pupuk NPK untuk pertumbuhan awal.",
-                hama: "Pantau hama secara rutin. Gunakan pestisida organik untuk menjaga kesehatan tanaman.",
-                panen: "Waktu panen berbeda per tanaman. Cabai siap panen 70-80 hari, terong 60-70 hari setelah tanam."
+                penyiraman: "Penyiraman tergantung jenis pohon. Sengon dan akasia butuh air cukup di awal, jati lebih tahan kekeringan setelah 1 tahun.",
+                pupuk: "Gunakan pupuk organik untuk bibit kehutanan. NPK 15-15-15 untuk pertumbuhan awal, lalu pupuk kandang.",
+                hama: "Pantau hama secara rutin. Gunakan pestisida organik. Bibit jati rentan terhadap ulat daun di awal pertumbuhan.",
+                panen: "Waktu panen berbeda: Sengon 3-5 tahun, Akasia 4-6 tahun, Jati 8-15 tahun, Mahoni 10-20 tahun.",
+                perawatan: "Perawatan bibit kehutanan: Siram teratur 6 bulan pertama, pupuk setiap 3 bulan, lindungi dari hama, dan beri naungan di awal."
+            },
+            kehutanan: {
+                investasi: "Bibit kehutanan adalah investasi jangka panjang terbaik! Jati bisa menghasilkan jutaan per pohon dalam 15 tahun.",
+                jenis: "Kami punya 5 jenis bibit kehutanan: Jati (premium), Sengon (cepat), Mahoni (mahal), Akasia (industri), Pinus (pegunungan).",
+                lokasi: "Pilih lokasi dengan tanah gembur, drainase baik, dan sinar matahari cukup. Jangan di lahan banjir atau terlalu kering.",
+                keuntungan: "Keuntungan bibit kehutanan: Pendapatan pasif, nilai investasi naik, kontribusi lingkungan, dan permintaan kayu tinggi."
             }
         };
 
@@ -669,15 +688,27 @@
                 return greeting;
             }
             
-            // Product inquiries
+            // Product inquiries - Enhanced untuk Kehutanan
+            if (lowerMessage.includes('jati') && !lowerMessage.includes('sengon')) {
+                return AI_RESPONSES.products.jati;
+            }
+            if (lowerMessage.includes('sengon')) {
+                return AI_RESPONSES.products.sengon;
+            }
+            if (lowerMessage.includes('mahoni')) {
+                return AI_RESPONSES.products.mahoni;
+            }
+            if (lowerMessage.includes('akasia')) {
+                return AI_RESPONSES.products.akasia;
+            }
+            if (lowerMessage.includes('pinus')) {
+                return AI_RESPONSES.products.pinus;
+            }
             if (lowerMessage.includes('cabai') || lowerMessage.includes('chili')) {
                 return AI_RESPONSES.products.cabai;
             }
             if (lowerMessage.includes('terong') || lowerMessage.includes('eggplant')) {
                 return AI_RESPONSES.products.terong;
-            }
-            if (lowerMessage.includes('jati') || lowerMessage.includes('sengon')) {
-                return AI_RESPONSES.products.jati;
             }
             if (lowerMessage.includes('tomat') || lowerMessage.includes('tomato')) {
                 return AI_RESPONSES.products.tomat;
@@ -685,8 +716,8 @@
             if (lowerMessage.includes('durian')) {
                 return AI_RESPONSES.products.durian;
             }
-            if (lowerMessage.includes('kangkung')) {
-                return AI_RESPONSES.products.kangkung;
+            if (lowerMessage.includes('alpukat') || lowerMessage.includes('avocado')) {
+                return AI_RESPONSES.products.alpukat;
             }
             
             // Smart recommendations based on user preferences
@@ -721,18 +752,48 @@
                 return AI_RESPONSES.recommendations.bisnis;
             }
             
-            // Care questions
-            if (lowerMessage.includes('siram') || lowerMessage.includes('air')) {
-                return AI_RESPONSES.care.penyiraman;
+            // Forestry care questions - Enhanced
+            if (lowerMessage.includes('perawatan') || lowerMessage.includes('merawat') || lowerMessage.includes('care')) {
+                if (lowerMessage.includes('jati')) {
+                    return "Perawatan bibit jati: Siram teratur 6 bulan pertama, pupuk NPK setiap 3 bulan, lindungi dari hama ulat daun. Jati butuh sinar matahari penuh dan tanah gembur. Panen dalam 8-15 tahun untuk hasil optimal.";
+                }
+                if (lowerMessage.includes('sengon')) {
+                    return "Perawatan bibit sengon: Sangat mudah! Siram cukup di awal, tahan kekeringan setelah 1 tahun. Pupuk organik setiap 6 bulan. Sengon tumbuh cepat dan tahan hama. Panen dalam 3-5 tahun.";
+                }
+                if (lowerMessage.includes('mahoni')) {
+                    return "Perawatan bibit mahoni: Butuh perhatian ekstra. Siram teratur, pupuk lengkap, lindungi dari hama dan penyakit. Mahoni tumbuh lambat tapi menghasilkan kayu mahal. Panen dalam 10-20 tahun.";
+                }
+                if (lowerMessage.includes('akasia')) {
+                    return "Perawatan bibit akasia: Cocok untuk lahan marginal. Tahan kekeringan dan banjir. Pupuk NPK untuk pertumbuhan cepat. Produktivitas tinggi untuk industri pulp. Panen dalam 4-6 tahun.";
+                }
+                if (lowerMessage.includes('pinus')) {
+                    return "Perawatan bibit pinus: Cocok daerah pegunungan. Tahan dingin dan kering. Siram sedang, pupuk kandang. Pinus butuh drainase baik dan hindari genangan. Panen dalam 8-12 tahun.";
+                }
+                return "Perawatan bibit kehutanan tergantung jenisnya. Sengon dan akasia mudah dirawat, jati dan mahoni butuh perhatian lebih. Semua butuh sinar matahari cukup dan tanah gembur. Ada jenis pohon tertentu yang ingin Anda tanyakan?";
             }
-            if (lowerMessage.includes('pupuk')) {
-                return AI_RESPONSES.care.pupuk;
+
+            // Investment questions - Enhanced
+            if (lowerMessage.includes('investasi') || lowerMessage.includes('profit') || lowerMessage.includes('keuntungan') || lowerMessage.includes('uang')) {
+                if (lowerMessage.includes('jati')) {
+                    return "Investasi jati sangat menguntungkan! 1 pohon jati bisa menghasilkan Rp 5-15 juta dalam 15 tahun. Kayu jati premium untuk furniture dan konstruksi. ROI tinggi untuk jangka panjang!";
+                }
+                if (lowerMessage.includes('sengon')) {
+                    return "Investasi sengon cepat balik modal! Panen dalam 3-5 tahun, harga kayu Rp 800.000-1.200.000/m³. Cocok untuk bisnis pulp dan biomassa. ROI dalam 5 tahun!";
+                }
+                if (lowerMessage.includes('mahoni')) {
+                    return "Investasi mahoni premium! Kayu mahoni bisa mencapai Rp 3-5 juta/m³. Meski tumbuh lambat (10-20 tahun), nilai investasinya sangat tinggi. Cocok untuk investor jangka panjang.";
+                }
+                return "Bibit kehutanan adalah investasi jangka panjang terbaik! Sengon balik modal cepat (3-5 tahun), jati dan mahoni untuk investasi premium. Kami bisa bantu hitung proyeksi keuntungan berdasarkan lahan Anda.";
             }
-            if (lowerMessage.includes('hama') || lowerMessage.includes('pest')) {
-                return AI_RESPONSES.care.hama;
+
+            // Forestry general questions
+            if (lowerMessage.includes('kehutanan') || lowerMessage.includes('pohon') || lowerMessage.includes('hutan')) {
+                return "Kami spesialis bibit kehutanan berkualitas! Punya 5 jenis unggulan: Jati Solomon (premium), Sengon (cepat tumbuh), Mahoni (kayu mahal), Akasia Mangium (industri), Pinus Merkusii (pegunungan). Semua bibit siap tanam dengan survival rate tinggi. Mana yang Anda minati?";
             }
-            if (lowerMessage.includes('panen') || lowerMessage.includes('harvest')) {
-                return AI_RESPONSES.care.panen;
+
+            // Forestry business questions
+            if (lowerMessage.includes('bisnis') || lowerMessage.includes('usaha') || lowerMessage.includes('bisnis kehutanan')) {
+                return "Bisnis kehutanan sangat menguntungkan! Kami bisa supply bibit untuk lahan 1-100 hektar. Akasia cocok untuk pulp (permintaan tinggi), Sengon untuk biomassa, Jati untuk kayu konstruksi. Bisa bantu hitung ROI dan supply schedule. Tertarik?";
             }
             
             // Price inquiries
@@ -860,12 +921,12 @@
             recommendations.forEach(product => {
                 recHTML += `
                     <div class="ai-rec-card" onclick="addToCart(${product.id})">
-                        <img src="${product.image}" alt="${product.title}" loading="lazy">
+                        <img src="${product.img}" alt="${product.title}" loading="lazy">
                         <div class="ai-rec-info">
                             <h4>${product.title}</h4>
                             <p class="ai-rec-price">${formatIDR(product.price)}</p>
                             <p class="ai-rec-desc">${product.desc.substring(0, 60)}...</p>
-                            <span class="ai-rec-badge">${product.difficulty}</span>
+                            <span class="ai-rec-badge">${product.category === 'kehutanan' ? '🌳 ' : product.category === 'buah' ? '🍎 ' : '🌱 '}${product.difficulty}</span>
                         </div>
                     </div>
                 `;
