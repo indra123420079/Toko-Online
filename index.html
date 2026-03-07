@@ -129,27 +129,152 @@
 
         footer { padding: 40px; opacity: 0.8; font-size: 0.8em; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* Animasi */
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsivitas */
-        @media (max-width: 768px) {
-            nav { flex-direction: column; gap: 10px; }
-            .container { padding: 10px; gap: 15px; }
-            .card { width: 100%; max-width: 350px; }
-            #cart-modal { width: 100%; }
-            h1 { font-size: 2em; }
-            .search-box { flex-direction: column; }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        @media (max-width: 480px) {
-            header { padding: 40px 20px; }
-            h1 { font-size: 1.8em; }
-            .card { width: 100%; }
-            .maps-box { padding: 20px; }
-            iframe { height: 250px; }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* CHATBOT AI */
+        .chatbot {
+            position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px;
+            background: white; border-radius: 20px; box-shadow: var(--shadow);
+            z-index: 4000; display: none; flex-direction: column; overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+        .chatbot.active { display: flex; }
+        .chat-header {
+            background: var(--primary); color: white; padding: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .chat-messages {
+            flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa;
+        }
+        .message {
+            margin-bottom: 15px; padding: 10px 15px; border-radius: 15px;
+            max-width: 80%; animation: fadeIn 0.3s ease;
+        }
+        .message.user {
+            background: var(--primary); color: white; margin-left: auto;
+        }
+        .message.bot {
+            background: white; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .chat-input {
+            padding: 15px; background: white; border-top: 1px solid #eee;
+            display: flex; gap: 10px;
+        }
+        .chat-input input {
+            flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px;
+            outline: none;
+        }
+        .chat-input button {
+            padding: 10px 15px; background: var(--primary); color: white;
+            border: none; border-radius: 20px; cursor: pointer;
+        }
+        .chat-toggle {
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+            background: var(--primary); border-radius: 50%; border: none;
+            color: white; font-size: 1.5em; cursor: pointer; z-index: 3000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: var(--transition);
+        }
+        .chat-toggle:hover { transform: scale(1.1); }
+        .typing {
+            display: inline-block; width: 20px; height: 20px;
+            border: 2px solid #ccc; border-radius: 50%;
+            border-top-color: var(--primary); animation: spin 1s linear infinite;
+        }
+
+        /* AI Recommendations */
+        .ai-recommendations {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 30px; margin: 30px auto; border-radius: 20px;
+            max-width: 1000px; text-align: center; color: #333;
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .ai-recommendations.show {
+            display: block;
+        }
+        
+        .ai-recommendations h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .rec-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-top: 20px;
+        }
+        
+        .rec-card {
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid #dee2e6;
+        }
+        
+        .rec-card:hover { 
+            transform: translateY(-5px);
+            border-color: #28a745;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .rec-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .rec-card h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .rec-price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .rec-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .ai-badge {
+            background: var(--accent); color: white; padding: 3px 8px;
+            border-radius: 10px; font-size: 0.7em; font-weight: bold;
+            display: inline-block; margin-bottom: 10px;
         }
     </style>
 </head>
@@ -182,16 +307,30 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127103.5532585935!2d105.18431872145398!3d-5.417244976451684!2m3!1f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40db238a20993d%3A0x4039d80b220d040!2sBandar%20Lampung%2C%20Lampung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" loading="lazy"></iframe>
     </div>
 
-    <div id="cart-modal">
-        <div class="cart-header">
-            <h3>🛒 Pesanan</h3>
-            <button class="close-btn" onclick="closeCart()">Tutup</button>
+    <div class="ai-recommendations">
+        <h2>🤖 Rekomendasi AI untuk Anda</h2>
+        <p>Berdasarkan tren pencarian dan preferensi pelanggan</p>
+        <div class="rec-grid" id="ai-recommendations"></div>
+    </div>
+
+    <!-- Chatbot AI -->
+    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">💬</button>
+    <div class="chatbot" id="chatbot">
+        <div class="chat-header">
+            <div>
+                <strong>🌱 AI Assistant</strong>
+                <div style="font-size: 0.8em; opacity: 0.9;">Online - Siap membantu!</div>
+            </div>
+            <button onclick="toggleChat()" style="background: none; border: none; color: white; font-size: 1.2em; cursor: pointer;">×</button>
         </div>
-        <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-        <div style="padding-top: 15px; border-top: 2px solid #eee;">
-            <h4 style="margin: 0 0 10px 0;">Total: <span id="cart-total" style="color: var(--primary);">Rp0</span></h4>
-            <button id="checkout" class="btn add" onclick="checkoutWhatsApp()">Checkout via WA</button>
-            <button id="clear-cart" class="btn direct" onclick="clearCart()">Kosongkan Keranjang</button>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <strong>Green Mold AI:</strong> Halo! Saya adalah asisten AI toko kami. Saya bisa membantu Anda memilih produk yang tepat, memberikan rekomendasi, atau menjawab pertanyaan tentang pertanian. Apa yang bisa saya bantu hari ini? 😊
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Tanyakan sesuatu..." onkeypress="handleChatKeyPress(event)">
+            <button onclick="sendMessage()">Kirim</button>
         </div>
     </div>
 
@@ -204,13 +343,55 @@
     <script>
         // Data Produk
         const PRODUCTS = [
-            {id:1, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500', badge:'BEST SELLER'},
-            {id:2, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500', badge:'MUDAH TUMBUH'},
-            {id:3, title:'Bibit Jati & Sengon', desc:'Bibit kehutanan kualitas premium (Jati Solomon/Sengon) untuk investasi masa depan.', price:7500, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500', badge:'INVESTASI'}
+            {id:1, title:'Benih Cabai Rawit', desc:'Varian unggul tahan layu bakteri. Hasil buah lebat dan ekstra pedas.', price:25000, img:'https://images.unsplash.com/photo-1590779033100-9f60705a013d?q=80&w=500', badge:'BEST SELLER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi'},
+            {id:2, title:'Benih Terong Ungu', desc:'Isi 150+ butir. Pertumbuhan cepat, buah panjang dan warna ungu mengkilap.', price:15000, img:'https://images.unsplash.com/photo-1615485242231-158309a98075?q=80&w=500', badge:'MUDAH TUMBUH', category:'sayuran', difficulty:'mudah', season:'basah', yield:'sedang'},
+            {id:3, title:'Bibit Jati & Sengon', desc:'Bibit kehutanan kualitas premium (Jati Solomon/Sengon) untuk investasi masa depan.', price:7500, img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=500', badge:'INVESTASI', category:'kehutanan', difficulty:'sedang', season:'universal', yield:'panjang'},
+            {id:4, title:'Benih Tomat Cherry', desc:'Buah kecil manis, cocok untuk hidroponik. Produktivitas tinggi.', price:18000, img:'https://images.unsplash.com/photo-1546470427-e9e826f9b14c?q=80&w=500', badge:'POPULER', category:'sayuran', difficulty:'mudah', season:'kering', yield:'tinggi'},
+            {id:5, title:'Bibit Durian Musang King', desc:'Varietas durian premium dengan rasa manis dan tekstur lembut.', price:50000, img:'https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=500', badge:'PREMIUM', category:'buah', difficulty:'sulit', season:'basah', yield:'panjang'},
+            {id:6, title:'Benih Kangkung Hydro', desc:'Untuk budidaya hidroponik. Pertumbuhan super cepat, panen 25-30 hari.', price:12000, img:'https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=500', badge:'CEPAT PANEN', category:'sayuran', difficulty:'mudah', season:'universal', yield:'sangat tinggi'},
+            {id:7, title:'Bibit Alpukat Mentega', desc:'Buah berkualitas tinggi, daging lembut dan rasa manis. Cocok untuk lahan sempit.', price:35000, img:'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=500', badge:'UNGGULAN', category:'buah', difficulty:'sedang', season:'universal', yield:'panjang'},
+            {id:8, title:'Benih Bayam Hijau', desc:'Kaya nutrisi, mudah tumbuh. Cocok untuk urban farming.', price:8000, img:'https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=500', badge:'NUTRISI', category:'sayuran', difficulty:'mudah', season:'universal', yield:'sedang'}
         ];
+
+        // AI Knowledge Base
+        const AI_RESPONSES = {
+            greetings: [
+                "Halo! Selamat datang di Green Mold Seed Shop! 🌱 Ada yang bisa saya bantu?",
+                "Hai! Saya AI assistant toko kami. Apa yang ingin Anda ketahui tentang produk kami?",
+                "Hello! Saya siap membantu Anda memilih benih dan bibit terbaik untuk kebun Anda! 😊"
+            ],
+            products: {
+                cabai: "Benih cabai rawit kami sangat direkomendasikan! Tahan layu bakteri, hasil melimpah, dan sangat pedas. Cocok untuk iklim tropis Indonesia.",
+                terong: "Benih terong ungu kami mudah tumbuh dan hasilnya banyak. Buahnya panjang dan berkualitas tinggi. Ideal untuk pemula!",
+                jati: "Bibit jati dan sengon adalah investasi jangka panjang. Tumbuh kokoh dan bernilai ekonomis tinggi di masa depan.",
+                tomat: "Tomat cherry cocok untuk hidroponik dan balkon. Manis, produktif, dan mudah dirawat.",
+                durian: "Durian Musang King adalah varietas premium. Rasa manis, tekstur lembut, cocok untuk bisnis.",
+                kangkung: "Kangkung hidroponik panen super cepat! Cocok untuk urban farming dan pemula."
+            },
+            recommendations: {
+                pemula: "Untuk pemula, saya rekomendasikan benih terong ungu atau tomat cherry. Mudah tumbuh dan hasilnya memuaskan!",
+                pro: "Untuk petani berpengalaman, bibit durian atau jati sangat cocok untuk investasi jangka panjang.",
+                cepat: "Ingin panen cepat? Coba benih kangkung hidroponik atau cabai rawit. Panen dalam 25-30 hari!",
+                bisnis: "Untuk bisnis, durian Musang King atau cabai rawit sangat menguntungkan dengan permintaan tinggi."
+            },
+            care: {
+                penyiraman: "Penyiraman tergantung jenis tanaman. Sayuran butuh air cukup tapi tidak tergenang. Pohon seperti jati lebih tahan kekeringan.",
+                pupuk: "Gunakan pupuk organik untuk hasil terbaik. Kami rekomendasikan pupuk NPK untuk pertumbuhan awal.",
+                hama: "Pantau hama secara rutin. Gunakan pestisida organik untuk menjaga kesehatan tanaman.",
+                panen: "Waktu panen berbeda per tanaman. Cabai siap panen 70-80 hari, terong 60-70 hari setelah tanam."
+            }
+        };
 
         let CART = JSON.parse(localStorage.getItem('cart')) || [];
         const phone = '6282113864543';
+        let chatHistory = [];
+        let isTyping = false;
+        let userPreferences = JSON.parse(localStorage.getItem('userPreferences')) || {
+            category: null,
+            difficulty: null,
+            budget: null,
+            interactions: []
+        };
 
         // Fungsi format Rupiah
         function formatIDR(n){ 
@@ -247,6 +428,15 @@
                 p.desc.toLowerCase().includes(query)
             );
             renderProducts(filtered);
+            
+            // Track search interaction for AI recommendations
+            if (query.length > 2) {
+                userPreferences.lastSearch = query;
+                saveUserPreferences();
+                setTimeout(() => {
+                    provideAIRecommendations();
+                }, 1500);
+            }
         }
 
         // Fungsi Keranjang
@@ -261,6 +451,58 @@
             saveCart();
             updateUI();
             showNotification(`${prod.title} ditambahkan ke keranjang!`, 'success');
+            
+            // Track user preference
+            trackUserPreference(prod);
+        }
+
+        function trackUserPreference(product) {
+            userPreferences.interactions.push({
+                productId: product.id,
+                category: product.category,
+                difficulty: product.difficulty,
+                price: product.price,
+                timestamp: Date.now()
+            });
+            
+            // Update preferences based on interactions
+            updateUserPreferences();
+            saveUserPreferences();
+            
+            // Update AI recommendations
+            renderAIRecommendations();
+            
+            // Show AI recommendations after interaction
+            setTimeout(() => {
+                provideAIRecommendations();
+            }, 1000);
+        }
+
+        function updateUserPreferences() {
+            const interactions = userPreferences.interactions.slice(-10); // Last 10 interactions
+            
+            // Determine preferred category
+            const categories = interactions.map(i => i.category);
+            const categoryCount = {};
+            categories.forEach(cat => categoryCount[cat] = (categoryCount[cat] || 0) + 1);
+            userPreferences.category = Object.keys(categoryCount).reduce((a, b) => 
+                categoryCount[a] > categoryCount[b] ? a : b, null);
+            
+            // Determine preferred difficulty
+            const difficulties = interactions.map(i => i.difficulty);
+            const difficultyCount = {};
+            difficulties.forEach(diff => difficultyCount[diff] = (difficultyCount[diff] || 0) + 1);
+            userPreferences.difficulty = Object.keys(difficultyCount).reduce((a, b) => 
+                difficultyCount[a] > difficultyCount[b] ? a : b, null);
+            
+            // Determine budget range
+            const prices = interactions.map(i => i.price);
+            const avgPrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+            userPreferences.budget = avgPrice * 1.2; // 20% above average
+        }
+
+        function saveUserPreferences() {
+            localStorage.setItem('userPreferences', JSON.stringify(userPreferences));
         }
 
         function updateUI(){
@@ -352,9 +594,313 @@
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', searchProducts);
 
+        // ============ AI CHATBOT FUNCTIONS ============
+        function toggleChat() {
+            const chatbot = document.getElementById('chatbot');
+            const toggle = document.getElementById('chatToggle');
+            chatbot.classList.toggle('active');
+            toggle.style.display = chatbot.classList.contains('active') ? 'none' : 'block';
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message || isTyping) return;
+
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Process AI response after delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = generateAIResponse(message);
+                addMessage(response, 'bot');
+                saveChatHistory();
+            }, 1000 + Math.random() * 1000); // Random delay 1-2 seconds
+        }
+
+        function addMessage(text, type) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = type === 'bot' ? `<strong>Green Mold AI:</strong> ${text}` : text;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+            
+            // Save to history
+            chatHistory.push({text, type, timestamp: Date.now()});
+        }
+
+        function showTypingIndicator() {
+            isTyping = true;
+            const messages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<strong>Green Mold AI:</strong> <div class="typing"></div>';
+            messages.appendChild(typingDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+            isTyping = false;
+        }
+
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Greeting responses
+            if (lowerMessage.includes('halo') || lowerMessage.includes('hi') || lowerMessage.includes('hai')) {
+                const greeting = AI_RESPONSES.greetings[Math.floor(Math.random() * AI_RESPONSES.greetings.length)];
+                if (userPreferences.category) {
+                    return `${greeting} Saya lihat Anda tertarik dengan produk ${userPreferences.category}. Ada yang bisa saya bantu?`;
+                }
+                return greeting;
+            }
+            
+            // Product inquiries
+            if (lowerMessage.includes('cabai') || lowerMessage.includes('chili')) {
+                return AI_RESPONSES.products.cabai;
+            }
+            if (lowerMessage.includes('terong') || lowerMessage.includes('eggplant')) {
+                return AI_RESPONSES.products.terong;
+            }
+            if (lowerMessage.includes('jati') || lowerMessage.includes('sengon')) {
+                return AI_RESPONSES.products.jati;
+            }
+            if (lowerMessage.includes('tomat') || lowerMessage.includes('tomato')) {
+                return AI_RESPONSES.products.tomat;
+            }
+            if (lowerMessage.includes('durian')) {
+                return AI_RESPONSES.products.durian;
+            }
+            if (lowerMessage.includes('kangkung')) {
+                return AI_RESPONSES.products.kangkung;
+            }
+            
+            // Smart recommendations based on user preferences
+            if (lowerMessage.includes('rekomendasi') || lowerMessage.includes('saran')) {
+                if (userPreferences.category) {
+                    const recs = getPersonalizedRecommendations(userPreferences);
+                    if (recs.length > 0) {
+                        const topRec = recs[0];
+                        return `Berdasarkan preferensi Anda, saya rekomendasikan ${topRec.title}! Harganya ${formatIDR(topRec.price)} dengan ${topRec.desc.substring(0, 50)}...`;
+                    }
+                }
+                return "Saya bisa memberikan rekomendasi personal! Apa jenis tanaman yang Anda minati? Sayuran, buah, atau kehutanan?";
+            }
+            
+            // Budget-based recommendations
+            if (lowerMessage.includes('murah') || lowerMessage.includes('budget') || lowerMessage.includes('harga')) {
+                const affordable = PRODUCTS.filter(p => p.price < 20000).slice(0, 2);
+                return `Produk terjangkau kami: ${affordable.map(p => `${p.title} (${formatIDR(p.price)})`).join(' dan ')}. Mana yang Anda minati?`;
+            }
+            
+            // Difficulty-based recommendations
+            if (lowerMessage.includes('pemula') || lowerMessage.includes('baru')) {
+                return AI_RESPONSES.recommendations.pemula;
+            }
+            if (lowerMessage.includes('pro') || lowerMessage.includes('berpengalaman')) {
+                return AI_RESPONSES.recommendations.pro;
+            }
+            if (lowerMessage.includes('cepat') || lowerMessage.includes('panen cepat')) {
+                return AI_RESPONSES.recommendations.cepat;
+            }
+            if (lowerMessage.includes('bisnis') || lowerMessage.includes('usaha')) {
+                return AI_RESPONSES.recommendations.bisnis;
+            }
+            
+            // Care questions
+            if (lowerMessage.includes('siram') || lowerMessage.includes('air')) {
+                return AI_RESPONSES.care.penyiraman;
+            }
+            if (lowerMessage.includes('pupuk')) {
+                return AI_RESPONSES.care.pupuk;
+            }
+            if (lowerMessage.includes('hama') || lowerMessage.includes('pest')) {
+                return AI_RESPONSES.care.hama;
+            }
+            if (lowerMessage.includes('panen') || lowerMessage.includes('harvest')) {
+                return AI_RESPONSES.care.panen;
+            }
+            
+            // Price inquiries
+            if (lowerMessage.includes('harga') || lowerMessage.includes('price')) {
+                const randomProduct = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
+                return `Harga ${randomProduct.title} adalah ${formatIDR(randomProduct.price)}. Kami juga punya promo menarik untuk pembelian grosir!`;
+            }
+            
+            // Cart inquiries
+            if (lowerMessage.includes('keranjang') || lowerMessage.includes('cart')) {
+                const count = CART.reduce((sum, item) => sum + item.qty, 0);
+                if (count === 0) {
+                    return "Keranjang Anda masih kosong. Mari saya rekomendasikan beberapa produk menarik!";
+                }
+                return `Anda memiliki ${count} item di keranjang. Klik tombol keranjang untuk melihat detailnya!`;
+            }
+            
+            // Learning user preferences
+            if (lowerMessage.includes('suka') || lowerMessage.includes('ingin')) {
+                if (lowerMessage.includes('sayur') || lowerMessage.includes('sayuran')) {
+                    userPreferences.category = 'sayuran';
+                    saveUserPreferences();
+                    return "Bagus! Anda tertarik dengan sayuran. Saya akan rekomendasikan produk sayuran terbaik untuk Anda. Coba lihat rekomendasi AI di atas! 🌱";
+                }
+                if (lowerMessage.includes('buah')) {
+                    userPreferences.category = 'buah';
+                    saveUserPreferences();
+                    return "Buah-buahan berkualitas tinggi ya! Kami punya alpukat dan durian premium. Lihat rekomendasi AI untuk pilihan terbaik! 🍎";
+                }
+                if (lowerMessage.includes('pohon') || lowerMessage.includes('kehutanan')) {
+                    userPreferences.category = 'kehutanan';
+                    saveUserPreferences();
+                    return "Investasi jangka panjang yang bagus! Bibit jati dan sengon kami sangat berkualitas. Cek rekomendasi AI! 🌳";
+                }
+            }
+            
+            // Default responses with personality
+            const defaultResponses = [
+                "Saya bisa membantu Anda memilih benih yang tepat. Apa jenis tanaman yang Anda minati?",
+                "Apakah Anda mencari rekomendasi untuk pemula atau sudah berpengalaman?",
+                "Saya punya berbagai pilihan benih dan bibit berkualitas. Ada yang spesifik yang ingin Anda tanyakan?",
+                "Untuk hasil terbaik, pertimbangkan iklim dan lahan Anda. Saya bisa memberikan saran yang tepat!",
+                "Kami fokus pada produk unggul dengan harga terjangkau. Apa budget Anda?",
+                "Coba tanyakan tentang produk spesifik atau minta rekomendasi berdasarkan kebutuhan Anda!"
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        function saveChatHistory() {
+            localStorage.setItem('chatHistory', JSON.stringify(chatHistory.slice(-20))); // Keep last 20 messages
+        }
+
+        function loadChatHistory() {
+            const history = JSON.parse(localStorage.getItem('chatHistory')) || [];
+            chatHistory = history;
+            history.forEach(msg => {
+                if (msg.timestamp > Date.now() - 24 * 60 * 60 * 1000) { // Last 24 hours
+                    addMessage(msg.text, msg.type);
+                }
+            });
+        }
+
+        // ============ AI RECOMMENDATIONS ============
+        function renderAIRecommendations() {
+            const container = document.getElementById('ai-recommendations');
+            const recommendations = getAIRecommendations();
+            
+            container.innerHTML = recommendations.map(product => `
+                <div class="rec-card">
+                    <div class="ai-badge">AI Recommended</div>
+                    <img src="${product.img}" alt="${product.title}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px;">
+                    <h4 style="margin: 0 0 5px 0; color: var(--dark);">${product.title}</h4>
+                    <p style="font-size: 0.8em; color: #666; margin: 5px 0;">${product.desc.substring(0, 60)}...</p>
+                    <div style="font-weight: bold; color: var(--primary); margin: 5px 0;">${formatIDR(product.price)}</div>
+                    <button class="btn add" onclick="addToCart(${product.id})" style="width: 100%; padding: 8px; font-size: 0.8em;">Tambah ke Keranjang</button>
+                </div>
+            `).join('');
+        }
+
+        function getAIRecommendations() {
+            // If user has preferences, use personalized recommendations
+            if (userPreferences.category || userPreferences.difficulty) {
+                const personalized = getPersonalizedRecommendations(userPreferences);
+                if (personalized.length >= 3) {
+                    return personalized.slice(0, 3);
+                }
+            }
+            
+            // Fallback to general recommendations
+            const sorted = [...PRODUCTS].sort((a, b) => {
+                // Prioritize best seller, then by price (affordable first), then diversity
+                const scoreA = (a.badge === 'BEST SELLER' ? 3 : a.badge === 'POPULER' ? 2 : 1) + (a.price < 20000 ? 1 : 0);
+                const scoreB = (b.badge === 'BEST SELLER' ? 3 : b.badge === 'POPULER' ? 2 : 1) + (b.price < 20000 ? 1 : 0);
+                return scoreB - scoreA;
+            });
+            
+            return sorted.slice(0, 3); // Return top 3 recommendations
+        }
+
+        // ============ AI PRODUCT MATCHING ============
+        function getPersonalizedRecommendations(userPreferences) {
+            return PRODUCTS.filter(product => {
+                let score = 0;
+                
+                if (userPreferences.category && product.category === userPreferences.category) score += 3;
+                if (userPreferences.difficulty && product.difficulty === userPreferences.difficulty) score += 2;
+                if (userPreferences.season && product.season === userPreferences.season) score += 2;
+                if (userPreferences.budget && product.price <= userPreferences.budget) score += 1;
+                
+                return score >= 3; // Must match at least 3 criteria
+            }).sort((a, b) => b.price - a.price); // Sort by price descending
+        }
+
+        // Function to provide AI recommendations automatically
+        function provideAIRecommendations() {
+            const recommendations = getPersonalizedRecommendations(userPreferences);
+            if (recommendations.length === 0) return;
+            
+            const recSection = document.getElementById('ai-recommendations');
+            if (!recSection) return;
+            
+            let recHTML = '<h3>🎯 Rekomendasi AI untuk Anda</h3>';
+            
+            recommendations.forEach(product => {
+                recHTML += `
+                    <div class="ai-rec-card" onclick="addToCart(${product.id})">
+                        <img src="${product.image}" alt="${product.title}" loading="lazy">
+                        <div class="ai-rec-info">
+                            <h4>${product.title}</h4>
+                            <p class="ai-rec-price">${formatIDR(product.price)}</p>
+                            <p class="ai-rec-desc">${product.desc.substring(0, 60)}...</p>
+                            <span class="ai-rec-badge">${product.difficulty}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            recSection.innerHTML = recHTML;
+            recSection.style.display = 'block';
+            
+            // Add animation
+            setTimeout(() => {
+                recSection.classList.add('show');
+            }, 100);
+        }
+
+        // Function to trigger AI recommendations based on user behavior
+        function triggerAIRecommendations() {
+            // Show recommendations after user views products or chats
+            if (userPreferences.viewedProducts && userPreferences.viewedProducts.length > 0) {
+                provideAIRecommendations();
+            }
+            
+            // Show recommendations periodically if user is active
+            setTimeout(() => {
+                if (document.visibilityState === 'visible') {
+                    provideAIRecommendations();
+                }
+            }, 30000); // Show every 30 seconds if user is active
+        }
+
         // Jalankan saat halaman dibuka
         renderProducts();
         updateUI();
+        renderAIRecommendations();
+        loadChatHistory();
+        triggerAIRecommendations();
     </script>
 </body>
 </html>
