@@ -313,8 +313,49 @@
         <div class="rec-grid" id="ai-recommendations"></div>
     </div>
 
-    <!-- Chatbot AI -->
-    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">💬</button>
+    <!-- MODAL KERANJANG -->
+    <div id="cart-modal">
+        <div class="cart-header">
+            <h3>Keranjang Belanja</h3>
+            <button class="close-btn" onclick="closeCart()">×</button>
+        </div>
+        <div id="cart-items" style="flex:1; padding:20px; overflow-y:auto;">
+            <!-- Cart items will be rendered here -->
+        </div>
+        <div style="padding:20px; border-top:1px solid #eee; background:#f9f9f9;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <strong>Total:</strong>
+                <strong id="cart-total" style="color:var(--primary); font-size:1.2em;">Rp0</strong>
+            </div>
+            
+            <!-- Info Pengiriman & Pembayaran -->
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee;">
+                <h4 style="margin: 0 0 10px 0; color: var(--dark); font-size: 0.9em;">📦 Info Pengiriman</h4>
+                <div style="font-size: 0.8em; color: #666; line-height: 1.4;">
+                    • Pengiriman ke seluruh Indonesia<br>
+                    • Minimum order: 5 produk / Rp 50.000<br>
+                    • Estimasi ongkir berdasarkan lokasi<br>
+                    • Bibit dikirim dalam kemasan aman
+                </div>
+            </div>
+            
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee;">
+                <h4 style="margin: 0 0 10px 0; color: var(--dark); font-size: 0.9em;">💳 Pembayaran</h4>
+                <div style="font-size: 0.8em; color: #666; line-height: 1.4;">
+                    • Transfer Bank / E-Wallet<br>
+                    • COD (Bayar di Tempat)<br>
+                    • Konfirmasi pembayaran via WhatsApp
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:10px;">
+                <button onclick="clearCart()" style="flex:1; padding:12px; background:#ff6b6b; color:white; border:none; border-radius:8px; cursor:pointer; font-size: 0.9em;">Kosongkan</button>
+                <button onclick="checkoutWhatsApp()" style="flex:2; padding:12px; background:#27ae60; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size: 0.9em;">
+                    🛒 Checkout WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="chatbot" id="chatbot">
         <div class="chat-header">
             <div>
@@ -429,7 +470,8 @@
                         <div class="desc">${p.desc}</div>
                         <div class="harga">${formatIDR(p.price)}</div>
                         <button class="btn add" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
-                        <a class="btn direct" href="https://wa.me/${phone}?text=Halo, saya ingin tanya produk: ${p.title}" target="_blank">Pesan Langsung</a>
+                        <button class="btn direct" onclick="buyNow(${p.id})">🛒 Beli Sekarang</button>
+                        <a class="btn direct" href="https://wa.me/${phone}?text=Halo, saya ingin tanya produk: ${p.title}" target="_blank">Tanya Produk</a>
                     </div>
                 </article>
             `).join('');
@@ -459,7 +501,7 @@
         }
 
         // Fungsi Keranjang
-        function addToCart(id){
+        function buyNow(id){
             const prod = PRODUCTS.find(p => p.id === id);
             const existing = CART.find(c => c.id === id);
             if(existing) {
@@ -469,10 +511,15 @@
             }
             saveCart();
             updateUI();
-            showNotification(`${prod.title} ditambahkan ke keranjang!`, 'success');
             
             // Track user preference
             trackUserPreference(prod);
+            
+            // Langsung buka checkout
+            setTimeout(() => {
+                openCart();
+                showNotification(`${prod.title} siap checkout!`, 'success');
+            }, 300);
         }
 
         function trackUserPreference(product) {
@@ -543,6 +590,7 @@
                     <div style="flex-grow:1">
                         <div style="font-size:0.85em; font-weight:bold">${item.title}</div>
                         <div style="font-size:0.8em; color:var(--primary); font-weight:bold">${formatIDR(item.price)}</div>
+                        <div style="font-size:0.75em; color:#666;">Subtotal: ${formatIDR(item.price * item.qty)}</div>
                     </div>
                     <div class="qty-controls">
                         <button onclick="changeQty(${item.id}, -1)">-</button>
@@ -552,8 +600,40 @@
                 </div>
             `).join('');
             
-            const total = CART.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            document.getElementById('cart-total').textContent = formatIDR(total);
+            updateCartTotal();
+        }
+
+        function updateCartTotal() {
+            const subtotal = CART.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const totalQty = CART.reduce((sum, i) => sum + i.qty, 0);
+
+            // Hitung diskon
+            let discount = 0;
+            let discountText = '';
+            if (totalQty >= 50) {
+                discount = 0.15;
+                discountText = '🎁 Diskon 15% (50+ bibit)';
+            } else if (totalQty >= 25) {
+                discount = 0.10;
+                discountText = '🎁 Diskon 10% (25+ bibit)';
+            } else if (totalQty >= 10) {
+                discount = 0.05;
+                discountText = '🎁 Diskon 5% (10+ bibit)';
+            }
+
+            const discountAmount = Math.round(subtotal * discount);
+            const afterDiscount = subtotal - discountAmount;
+            const shippingEstimate = estimateShipping(CART);
+            const finalTotal = afterDiscount + shippingEstimate;
+
+            // Update total display
+            const totalElement = document.getElementById('cart-total');
+            totalElement.innerHTML = `
+                <div style="font-size: 0.8em; color: #666; margin-bottom: 5px;">Subtotal: ${formatIDR(subtotal)}</div>
+                ${discountText ? `<div style="font-size: 0.8em; color: #e74c3c; margin-bottom: 5px;">${discountText}: -${formatIDR(discountAmount)}</div>` : ''}
+                <div style="font-size: 0.8em; color: #666; margin-bottom: 5px;">Estimasi Ongkir: ${formatIDR(shippingEstimate)}</div>
+                <div style="font-size: 1.1em; color: var(--primary); font-weight: bold;">Total: ${formatIDR(finalTotal)}</div>
+            `;
         }
 
         function changeQty(id, delta){
@@ -584,18 +664,102 @@
         function closeCart(){ document.getElementById('cart-modal').classList.remove('active'); }
 
         function checkoutWhatsApp(){
-            if(CART.length === 0) return alert('Keranjang anda masih kosong!');
-            
-            const lines = CART.map(i => `- ${i.title} (${i.qty}x)`);
-            const total = formatIDR(CART.reduce((sum, i) => sum + (i.price * i.qty), 0));
-            const msg = `Halo Green Mold Seed Shop,\nSaya ingin memesan:\n\n${lines.join('\n')}\n\nTotal Harga: *${total}*\n\nMohon info detail pembayarannya. Terima kasih.`;
-            
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+            if(CART.length === 0) {
+                showNotification('Keranjang masih kosong! Silakan tambahkan produk terlebih dahulu.', 'error');
+                return;
+            }
+
+            const totalQty = CART.reduce((sum, i) => sum + i.qty, 0);
+            const subtotal = CART.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+            // Validasi minimum order
+            if (totalQty < 5) {
+                showNotification('Minimum order 5 produk untuk pengiriman. Silakan tambah produk lagi.', 'error');
+                return;
+            }
+
+            if (subtotal < 50000) {
+                showNotification('Minimum pembelian Rp 50.000 untuk pengiriman. Silakan tambah produk lagi.', 'error');
+                return;
+            }
+
+            // Hitung diskon untuk pembelian grosir
+            let discount = 0;
+            const totalQty = CART.reduce((sum, i) => sum + i.qty, 0);
+            if (totalQty >= 50) discount = 0.15; // 15% diskon untuk 50+ bibit
+            else if (totalQty >= 25) discount = 0.10; // 10% diskon untuk 25+ bibit
+            else if (totalQty >= 10) discount = 0.05; // 5% diskon untuk 10+ bibit
+
+            const discountAmount = Math.round(subtotal * discount);
+            const afterDiscount = subtotal - discountAmount;
+
+            // Estimasi ongkir (bisa disesuaikan berdasarkan lokasi)
+            const shippingEstimate = estimateShipping(CART);
+
+            const total = formatIDR(afterDiscount + shippingEstimate);
+
+            let discountText = '';
+            if (discount > 0) {
+                discountText = `🎁 *Diskon Grosir (${(discount * 100).toFixed(0)}%):* -${formatIDR(discountAmount)}\n`;
+            }
+
+            const msg = `🛒 *PESANAN BARU - GREEN MOLD SEED SHOP*
+
+Halo Admin, saya ingin memesan produk berikut:
+
+${lines.join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━
+💰 *Subtotal:* ${formatIDR(subtotal)}
+${discountText}🚚 *Estimasi Ongkir:* ${formatIDR(shippingEstimate)}
+━━━━━━━━━━━━━━━━━━━━━━
+💵 *Total Pembayaran:* ${total}
+━━━━━━━━━━━━━━━━━━━━━━
+
+📍 *Alamat Pengiriman:*
+[SILAKAN ISI ALAMAT LENGKAP ANDA]
+
+📞 *Kontak:* [NOMOR TELEPON ANDA]
+
+📝 *Catatan Tambahan:*
+[TULIS JIKA ADA PERMINTAAN KHUSUS]
+
+Mohon konfirmasi ketersediaan stock dan detail pembayaran. Terima kasih! 🌱
+
+*#GreenMoldSeedShop #BibitKualitas*`;
+
+            // Close cart modal
+            closeCart();
+
+            // Show success notification
+            showNotification('Pesanan dikirim ke WhatsApp! Admin akan segera menghubungi Anda.', 'success');
+
+            // Open WhatsApp after a short delay
+            setTimeout(() => {
+                window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+            }, 500);
         }
 
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
+        // Fungsi estimasi ongkir berdasarkan jenis produk
+        function estimateShipping(cart) {
+            let baseShipping = 0;
+            let hasForestry = false;
+            let hasVegetables = false;
+
+            cart.forEach(item => {
+                if (item.category === 'kehutanan') {
+                    hasForestry = true;
+                    // Bibit pohon lebih besar, ongkir lebih mahal
+                    baseShipping += item.qty * 2000; // Rp 2.000 per bibit
+                } else {
+                    hasVegetables = true;
+                    baseShipping += item.qty * 500; // Rp 500 per benih
+                }
+            });
+
+            // Minimum ongkir
+            const minShipping = hasForestry ? 25000 : 15000;
+            return Math.max(baseShipping, minShipping);
                 position: fixed; top: 20px; right: 20px; background: ${type === 'success' ? '#27ae60' : '#f39c12'};
                 color: white; padding: 15px 20px; border-radius: 5px; z-index: 3000;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.2); animation: slideIn 0.3s ease-out;
