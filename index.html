@@ -4,167 +4,236 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Mold Seed Shop | Benih & Kebutuhan Pertanian</title>
-    <!-- Font Poppins sesuai dengan CSS Anda -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { 
             --primary: #27ae60; 
+            --primary-dark: #1e8449;
             --dark: #1b5e20; 
             --accent: #f39c12; 
             --glass: rgba(255, 255, 255, 0.95); 
-            --shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            --shadow: 0 15px 35px rgba(0,0,0,0.1); 
             --transition: all 0.3s ease; 
+            --text: #333;
+            --bg-light: #f9fbf9;
         } 
         
-        * { box-sizing: border-box; } 
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; } 
         
         body { 
             font-family: 'Poppins', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            text-align: center; 
-            background: linear-gradient(135deg, #0f9b0f 0%, #2ecc71 100%); 
-            background-attachment: fixed; 
-            color: white; 
+            background-color: var(--bg-light);
+            color: var(--text); 
             line-height: 1.6; 
+            overflow-x: hidden;
         } 
         
         /* Navigasi */ 
         nav { 
-            background: rgba(0, 0, 0, 0.3); 
+            background: rgba(255, 255, 255, 0.98); 
             backdrop-filter: blur(10px); 
-            padding: 15px 30px; 
-            position: sticky; 
+            padding: 15px 5%; 
+            position: fixed; 
+            width: 100%;
             top: 0; 
             z-index: 1000; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            flex-wrap: wrap; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         } 
         
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
         .logo {
-            font-size: 1.2em;
+            font-size: 1.5em;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            color: var(--dark);
+            text-decoration: none;
         }
 
-        nav a { 
-            color: white; 
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a.link-item { 
+            color: var(--text); 
             text-decoration: none; 
             font-weight: 600; 
-            font-size: 0.9em; 
+            font-size: 0.95em; 
             transition: var(--transition); 
+            position: relative;
         } 
         
-        nav a:hover { color: var(--accent); } 
+        nav a.link-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a.link-item:hover::after { width: 100%; }
+        nav a.link-item:hover { color: var(--primary); } 
         
         #cart-btn { 
             background: var(--accent); 
             border: none; 
-            padding: 8px 15px; 
-            border-radius: 20px; 
+            padding: 10px 20px; 
+            border-radius: 25px; 
             color: white; 
             font-weight: bold; 
             cursor: pointer; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3); 
             transition: var(--transition); 
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            font-size: 0.95em;
         } 
         
         #cart-btn:hover { 
             transform: translateY(-2px); 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3); 
+            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4); 
+            background: #e67e22;
+        } 
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        /* Header / Hero Section */ 
+        header { 
+            padding: 140px 5% 80px; 
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.9) 0%, rgba(46, 204, 113, 0.9) 100%), url('https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=1200&auto=format&fit=crop&q=80') center/cover;
+            color: white;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         } 
         
-        header { padding: 60px 20px; } 
-        
         h1 { 
-            font-size: 2.5em; 
+            font-size: 3.5em; 
             margin: 0; 
-            text-shadow: 2px 4px 10px rgba(0,0,0,0.2); 
+            text-shadow: 2px 4px 15px rgba(0,0,0,0.3); 
+            line-height: 1.2;
         } 
         
         .tagline { 
+            font-size: 1.2em;
             opacity: 0.9; 
-            font-style: italic; 
-            margin-top: 10px; 
-        } 
-        
-        .container { 
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center; 
-            gap: 25px; 
-            max-width: 1200px; 
-            margin: 0 auto 50px; 
-            padding: 20px; 
+            margin: 20px 0 40px; 
+            max-width: 600px;
         } 
         
         /* Pencarian */ 
         .search-box { 
             width: 100%; 
-            max-width: 500px; 
-            margin: 0 auto 30px; 
+            max-width: 600px; 
             display: flex; 
             gap: 10px; 
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
         } 
         
         .search-box input { 
             flex: 1; 
-            padding: 12px 20px; 
+            padding: 15px 25px; 
             border: none; 
-            border-radius: 25px; 
+            border-radius: 30px; 
             font-size: 1em; 
             outline: none; 
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         } 
         
         .search-box button { 
-            padding: 12px 20px; 
-            background: var(--accent); 
+            padding: 15px 30px; 
+            background: var(--dark); 
             color: white; 
             border: none; 
-            border-radius: 25px; 
+            border-radius: 30px; 
             cursor: pointer; 
             font-weight: bold; 
             transition: var(--transition); 
         } 
         
-        .search-box button:hover { background: #e67e22; } 
+        .search-box button:hover { background: #144d18; } 
+
+        /* Features/Keunggulan Section */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 5%;
+            background: white;
+            text-align: center;
+        }
+
+        .feature-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            color: var(--dark);
+            margin: 60px 0 20px;
+        }
         
-        /* Kartu Produk */ 
+        /* Produk Section */ 
+        .container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px; 
+            max-width: 1200px; 
+            margin: 0 auto 50px; 
+            padding: 20px; 
+        } 
+        
         .card { 
-            background: var(--glass); 
-            width: 300px; 
-            border-radius: 25px; 
+            background: white; 
+            width: 320px; 
+            border-radius: 20px; 
             overflow: hidden; 
             box-shadow: var(--shadow); 
             transition: var(--transition); 
-            color: #333; 
             position: relative; 
-            text-align: left; 
-            opacity: 0; 
-            transform: translateY(20px); 
-            animation: fadeInUp 0.6s ease forwards; 
+            display: flex;
+            flex-direction: column;
         } 
-        
-        .card:nth-child(1) { animation-delay: 0.1s; } 
-        .card:nth-child(2) { animation-delay: 0.2s; } 
-        .card:nth-child(3) { animation-delay: 0.3s; } 
         
         .card:hover { 
             transform: translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
         } 
         
         .card img { 
@@ -174,43 +243,44 @@
             transition: var(--transition); 
         } 
         
-        .card img:hover { transform: scale(1.05); } 
+        .card:hover img { transform: scale(1.05); } 
         
         .badge { 
             position: absolute; 
             top: 15px; 
             right: 15px; 
-            background: var(--dark); 
+            background: var(--accent); 
             color: white; 
-            padding: 5px 12px; 
+            padding: 5px 15px; 
             border-radius: 20px; 
-            font-size: 0.7em; 
+            font-size: 0.8em; 
             font-weight: bold; 
             z-index: 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         } 
         
-        .body { padding: 20px; } 
+        .body { padding: 25px; display: flex; flex-direction: column; flex: 1; } 
         
         .title { 
             font-weight: 700; 
-            font-size: 1.2em; 
+            font-size: 1.3em; 
             color: var(--dark); 
-            margin-bottom: 5px; 
+            margin-bottom: 8px; 
         } 
         
         .desc { 
-            font-size: 0.85em; 
-            color: #555; 
-            margin: 10px 0; 
-            min-height: 40px; 
-            line-height: 1.4; 
+            font-size: 0.9em; 
+            color: #666; 
+            margin-bottom: 15px; 
+            line-height: 1.5; 
+            flex: 1;
         } 
         
         .harga { 
-            font-size: 1.3em; 
+            font-size: 1.4em; 
             font-weight: 700; 
             color: var(--primary); 
-            margin-bottom: 15px; 
+            margin-bottom: 20px; 
         } 
         
         .btn { 
@@ -220,133 +290,226 @@
             margin-top: 8px; 
             border-radius: 12px; 
             border: none; 
-            font-weight: bold; 
+            font-weight: 600; 
             cursor: pointer; 
             text-decoration: none; 
             text-align: center; 
             transition: var(--transition); 
-            box-sizing: border-box; 
+            font-size: 0.95em;
         } 
         
         .add { background: var(--primary); color: white; } 
-        .add:hover { background: var(--dark); transform: translateY(-2px); } 
+        .add:hover { background: var(--primary-dark); } 
         
-        .direct { background: #f0f0f0; color: #333; font-size: 0.8em; } 
-        .direct:hover { background: #e0e0e0; } 
+        .direct { background: #f0f5f1; color: var(--dark); border: 1px solid var(--primary); } 
+        .direct:hover { background: var(--primary); color: white; } 
+        
+        /* Lokasi */ 
+        .maps-wrapper { background: white; padding: 60px 5%; text-align: center; }
+        .maps-box { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            border-radius: 20px; 
+            overflow: hidden;
+            box-shadow: var(--shadow); 
+        } 
+        
+        iframe { 
+            width: 100%; 
+            height: 400px; 
+            border: none; 
+            display: block;
+        } 
+
+        /* Footer */ 
+        footer { 
+            background: var(--dark);
+            color: white;
+            padding: 40px 5% 20px; 
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            text-align: left;
+            gap: 20px;
+        }
+
+        .footer-col { flex: 1; min-width: 250px; }
+        .footer-col h3 { margin-bottom: 15px; color: var(--accent); }
+        .footer-col p { opacity: 0.8; font-size: 0.9em; margin-bottom: 10px;}
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
         
         /* MODAL KERANJANG */ 
         #cart-modal { 
             position: fixed; 
             top: 0; 
             right: 0; 
-            width: 320px; 
+            width: 380px; 
+            max-width: 100%;
             height: 100%; 
             background: white; 
-            color: #333; 
             z-index: 2000; 
-            padding: 20px; 
-            box-shadow: -5px 0 15px rgba(0,0,0,0.2); 
-            display: none; 
+            padding: 25px; 
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15); 
+            display: flex; 
             flex-direction: column; 
-            text-align: left; 
-            box-sizing: border-box; 
             transform: translateX(100%); 
-            transition: var(--transition); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         } 
         
-        #cart-modal.active { 
-            display: flex; 
-            transform: translateX(0); 
-            animation: slideIn 0.3s forwards;
-        } 
+        #cart-modal.active { transform: translateX(0); } 
+
+        .cart-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .cart-overlay.active { display: block; opacity: 1; }
         
         .cart-header { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             margin-bottom: 20px; 
-        } 
-        
-        .cart-row { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 15px; 
-            border-bottom: 1px solid #eee; 
-            padding-bottom: 10px; 
-            align-items: center; 
-        } 
-        
-        .cart-row img { 
-            width: 45px; 
-            height: 45px; 
-            border-radius: 8px; 
-            object-fit: cover; 
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         } 
         
         .close-btn { 
-            background: #ff4757; 
-            color: white; 
+            background: none; 
+            color: #999; 
             border: none; 
-            padding: 8px 12px; 
-            border-radius: 8px; 
+            font-size: 1.5em;
             cursor: pointer; 
             transition: var(--transition); 
         } 
+        .close-btn:hover { color: #ff4757; transform: rotate(90deg); } 
         
-        .close-btn:hover { background: #ff3742; } 
+        .cart-items-container {
+            flex: 1; 
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Styling Scrollbar Keranjang */
+        .cart-items-container::-webkit-scrollbar { width: 6px; }
+        .cart-items-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .cart-item img {
+            width: 60px; height: 60px;
+            border-radius: 8px; object-fit: cover;
+        }
+
+        .item-details { flex: 1; }
+        .item-name { font-weight: 600; font-size: 0.9em; margin-bottom: 5px; line-height: 1.2;}
+        .item-price { color: var(--primary); font-weight: 700; font-size: 0.9em;}
         
         .qty-controls { 
             display: flex; 
-            gap: 5px; 
             align-items: center; 
+            gap: 10px; 
+            margin-top: 8px;
         } 
         
-        .qty-controls button { 
-            width: 25px; 
-            height: 25px; 
-            cursor: pointer; 
-            background: #eee; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            transition: var(--transition); 
+        .qty-btn { 
+            width: 28px; height: 28px; 
+            background: #f0f0f0; border: none; border-radius: 5px; 
+            cursor: pointer; font-weight: bold; color: var(--text);
+            transition: var(--transition);
         } 
+        .qty-btn:hover { background: var(--primary); color: white; }
+
+        .remove-btn {
+            color: #ff4757; background: none; border: none; cursor: pointer;
+            font-size: 1.1em; padding: 5px;
+        }
         
-        .qty-controls button:hover { background: #ddd; } 
-        
-        .maps-box { 
-            background: var(--glass); 
-            max-width: 900px; 
-            margin: 40px auto; 
-            padding: 30px; 
-            border-radius: 30px; 
-            color: #333; 
-            box-shadow: var(--shadow); 
-        } 
-        
-        iframe { 
-            width: 100%; 
-            height: 300px; 
-            border-radius: 20px; 
-            border: none; 
-            margin-top: 15px; 
-        } 
-        
-        footer { 
-            padding: 40px; 
-            opacity: 0.8; 
-            font-size: 0.8em; 
-            border-top: 1px solid rgba(255,255,255,0.1); 
+        .cart-footer {
             margin-top: 20px;
-        } 
-        
-        @keyframes fadeInUp { 
-            from { opacity: 0; transform: translateY(10px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        } 
-        
-        @keyframes slideIn { 
-            from { transform: translateX(400px); opacity: 0; } 
-            to { transform: translateX(0); opacity: 1; } 
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .cart-total {
+            display: flex; justify-content: space-between;
+            font-size: 1.2em; font-weight: 700; margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            background: #25D366; /* Warna WhatsApp */
+            color: white; border: none; width: 100%; padding: 15px;
+            border-radius: 12px; font-weight: bold; font-size: 1.1em;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: var(--transition);
+        }
+        .checkout-btn:hover { background: #1ebd5c; transform: translateY(-2px); }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--dark);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                transition: 0.3s;
+            }
+            .nav-links.active { left: 0; }
+            .mobile-menu-btn { display: block; }
+            h1 { font-size: 2.5em; }
+            header { padding-top: 120px; }
         }
     </style>
 </head>
@@ -354,129 +517,344 @@
 
     <!-- Navigasi -->
     <nav>
-        <div class="logo">
-            <span>🌱</span> GreenMold
-        </div>
-        <div class="nav-links">
-            <a href="#produk-section">Produk</a>
-            <a href="#lokasi">Lokasi</a>
+        <a href="#" class="logo">
+            <i class="fa-solid fa-leaf" style="color: var(--primary);"></i> GreenMold
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="#" class="link-item">Home</a>
+            <a href="#tentang" class="link-item">Tentang</a>
+            <a href="#produk-section" class="link-item">Produk</a>
+            <a href="#lokasi" class="link-item">Lokasi</a>
             <button id="cart-btn" onclick="toggleCart()">
-                🛒 <span id="cart-count">0</span>
+                <i class="fa-solid fa-cart-shopping"></i> 
+                <span id="cart-count">0</span>
             </button>
         </div>
     </nav>
 
     <!-- Header & Pencarian -->
-    <header>
-        <h1>Green Mold Seed Shop</h1>
-        <p class="tagline">Penyedia Benih Tanaman Kehutanan & Pertanian Terbaik</p>
+    <header id="home">
+        <h1>Tumbuhkan Masa Depan<br>Bersama Green Mold</h1>
+        <p class="tagline">Penyedia Benih Tanaman Kehutanan & Pertanian Terbaik dengan Tingkat Germinasi Tinggi dan Bersertifikat.</p>
         <div class="search-box">
-            <input type="text" placeholder="Cari benih kehutanan...">
-            <button>Cari</button>
+            <input type="text" placeholder="Cari benih jati, sengon, dll...">
+            <button><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
         </div>
-        <p style="font-size: 0.9em; opacity: 0.8;">© 2026 | WA: 0821-1386-4543 | Bandar Lampung, Indonesia</p>
     </header>
 
+    <!-- Fitur/Keunggulan -->
+    <section class="features" id="tentang">
+        <div class="feature-item">
+            <i class="fa-solid fa-medal feature-icon"></i>
+            <h3>Kualitas Premium</h3>
+            <p>Benih diseleksi ketat untuk memastikan tingkat pertumbuhan di atas 90%.</p>
+        </div>
+        <div class="feature-item">
+            <i class="fa-solid fa-truck-fast feature-icon"></i>
+            <h3>Pengiriman Aman</h3>
+            <p>Dikemas secara profesional untuk menjaga kelembapan benih selama perjalanan.</p>
+        </div>
+        <div class="feature-item">
+            <i class="fa-solid fa-headset feature-icon"></i>
+            <h3>Konsultasi Gratis</h3>
+            <p>Tim ahli kami siap membantu cara penyemaian dan perawatan tanaman Anda.</p>
+        </div>
+    </section>
+
     <!-- Bagian Produk -->
-    <div class="container" id="produk-section">
-        
-        <!-- Kartu 1 -->
-        <div class="card">
-            <div class="badge">Terlaris</div>
-            <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=500&auto=format&fit=crop&q=60" alt="Benih Jati">
-            <div class="body">
-                <div class="title">Benih Pohon Jati</div>
-                <div class="desc">Benih jati unggul, pertumbuhan cepat dan kualitas kayu lurus. Cocok untuk investasi jangka panjang.</div>
-                <div class="harga">Rp 120.000</div>
-                <button class="btn add" onclick="addToCart()">Tambah ke Keranjang</button>
-                <button class="btn direct">Beli Langsung (WA)</button>
+    <section id="produk-section" style="background: var(--bg-light); padding-top: 20px;">
+        <h2 class="section-title">Katalog Benih Terpopuler</h2>
+        <div class="container">
+            
+            <!-- Kartu 1 -->
+            <div class="card">
+                <div class="badge">Terlaris</div>
+                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=500&auto=format&fit=crop&q=60" alt="Benih Jati">
+                <div class="body">
+                    <div class="title">Benih Pohon Jati Unggul</div>
+                    <div class="desc">Benih jati pilihan, pertumbuhan cepat dan kualitas kayu lurus. Cocok untuk investasi jangka panjang.</div>
+                    <div class="harga">Rp 120.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
+                    <button class="btn add" onclick="addToCart('1', 'Benih Pohon Jati Unggul', 120000, 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=100&auto=format&fit=crop&q=60')">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Benih Pohon Jati Unggul')">Beli Langsung (WA)</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Kartu 2 -->
-        <div class="card">
-            <div class="badge">Baru</div>
-            <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=500&auto=format&fit=crop&q=60" alt="Benih Sengon">
-            <div class="body">
-                <div class="title">Benih Sengon Solomon</div>
-                <div class="desc">Pertumbuhan sangat cepat, cocok untuk lahan kritis dan Hutan Tanaman Industri (HTI).</div>
-                <div class="harga">Rp 85.000</div>
-                <button class="btn add" onclick="addToCart()">Tambah ke Keranjang</button>
-                <button class="btn direct">Beli Langsung (WA)</button>
+            <!-- Kartu 2 -->
+            <div class="card">
+                <div class="badge" style="background: #e74c3c;">Baru</div>
+                <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=500&auto=format&fit=crop&q=60" alt="Benih Sengon">
+                <div class="body">
+                    <div class="title">Benih Sengon Solomon</div>
+                    <div class="desc">Pertumbuhan sangat cepat, masa panen singkat. Cocok untuk lahan kritis dan Hutan Tanaman Industri (HTI).</div>
+                    <div class="harga">Rp 85.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
+                    <button class="btn add" onclick="addToCart('2', 'Benih Sengon Solomon', 85000, 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=100&auto=format&fit=crop&q=60')">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Benih Sengon Solomon')">Beli Langsung (WA)</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Kartu 3 -->
-        <div class="card">
-            <div class="badge">Premium</div>
-            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&auto=format&fit=crop&q=60" alt="Benih Mahoni">
-            <div class="body">
-                <div class="title">Benih Kayu Mahoni</div>
-                <div class="desc">Biji pilihan dengan daya kecambah tinggi. Menghasilkan kayu bernilai tinggi untuk furnitur premium.</div>
-                <div class="harga">Rp 95.000</div>
-                <button class="btn add" onclick="addToCart()">Tambah ke Keranjang</button>
-                <button class="btn direct">Beli Langsung (WA)</button>
+            <!-- Kartu 3 -->
+            <div class="card">
+                <div class="badge" style="background: #9b59b6;">Premium</div>
+                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&auto=format&fit=crop&q=60" alt="Benih Mahoni">
+                <div class="body">
+                    <div class="title">Benih Kayu Mahoni</div>
+                    <div class="desc">Biji pilihan dengan daya kecambah tinggi. Menghasilkan kayu bernilai tinggi untuk furnitur eksklusif.</div>
+                    <div class="harga">Rp 95.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
+                    <button class="btn add" onclick="addToCart('3', 'Benih Kayu Mahoni', 95000, 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=100&auto=format&fit=crop&q=60')">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Benih Kayu Mahoni')">Beli Langsung (WA)</button>
+                </div>
             </div>
-        </div>
 
-    </div>
+            <!-- Kartu 4 (Tambahan) -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1587334274328-64186a80aeee?w=500&auto=format&fit=crop&q=60" alt="Benih Akasia">
+                <div class="body">
+                    <div class="title">Benih Akasia Mangium</div>
+                    <div class="desc">Tahan terhadap berbagai kondisi tanah, perakaran kuat, sangat direkomendasikan untuk penghijauan.</div>
+                    <div class="harga">Rp 75.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
+                    <button class="btn add" onclick="addToCart('4', 'Benih Akasia Mangium', 75000, 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?w=100&auto=format&fit=crop&q=60')">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Benih Akasia Mangium')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <!-- Bagian Peta / Lokasi -->
-    <div class="maps-box" id="lokasi">
-        <h2 style="margin-top:0;">Lokasi Kami</h2>
-        <p>Kunjungi toko kami di Bandar Lampung untuk melihat langsung produk-produk terbaik.</p>
-        <!-- Ganti src di bawah ini dengan link embed Google Maps Anda yang asli -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127116.32111899757!2d105.17066922240954!3d-5.416805096522307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40da461019d5c3%3A0x633c706c62c9cc74!2sBandar%20Lampung%2C%20Bandar%20Lampung%20City%2C%20Lampung!5e0!3m2!1sen!2sid!4v1711287600000!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-
-    <!-- Modal Keranjang -->
-    <div id="cart-modal">
-        <div class="cart-header">
-            <h2 style="margin: 0; font-size: 1.2em;">Keranjang Anda</h2>
-            <button class="close-btn" onclick="toggleCart()">X</button>
+    <section class="maps-wrapper" id="lokasi">
+        <h2 class="section-title" style="margin-top: 0;">Kunjungi Toko Kami</h2>
+        <p style="margin-bottom: 30px; color: #666;">Datang dan pilih langsung benih berkualitas di pusat pembibitan kami di Bandar Lampung.</p>
+        <div class="maps-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127116.32111899757!2d105.17066922240954!3d-5.416805096522307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40da461019d5c3%3A0x633c706c62c9cc74!2sBandar%20Lampung%2C%20Bandar%20Lampung%20City%2C%20Lampung!5e0!3m2!1sen!2sid!4v1711287600000!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <div id="cart-items" style="flex: 1; overflow-y: auto;">
-            <p style="color: #777; font-size: 0.9em; text-align: center; margin-top: 50px;" id="empty-cart-msg">Keranjang masih kosong</p>
-            <!-- Contoh isi keranjang (disembunyikan secara default) -->
-        </div>
-        <button class="btn add" style="margin-top: auto;" onclick="alert('Fitur Checkout belum tersedia')">Checkout</button>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer>
-        <p>Green Mold Seed Shop | © 2026</p>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3><i class="fa-solid fa-leaf"></i> GreenMold</h3>
+                <p>Pusat benih tanaman kehutanan dan pertanian terpercaya di Indonesia. Berkomitmen menghijaukan bumi dengan bibit berkualitas.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Hubungi Kami</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Jl. Teuku Umar, Bandar Lampung</p>
+                <p><i class="fa-brands fa-whatsapp"></i> +62 821-1386-4543</p>
+                <p><i class="fa-regular fa-envelope"></i> admin@greenmold.id</p>
+            </div>
+            <div class="footer-col">
+                <h3>Tautan Cepat</h3>
+                <p><a href="#home" style="color:white; text-decoration:none;">Beranda</a></p>
+                <p><a href="#produk-section" style="color:white; text-decoration:none;">Katalog Produk</a></p>
+                <p><a href="#lokasi" style="color:white; text-decoration:none;">Lokasi Toko</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Green Mold Seed Shop. All rights reserved.</p>
+        </div>
     </footer>
 
-    <!-- Script sederhana untuk interaksi tombol -->
-    <script>
-        let cartCount = 0;
+    <!-- Overlay & Modal Keranjang -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <div id="cart-modal">
+        <div class="cart-header">
+            <h2 style="margin: 0; font-size: 1.3em;"><i class="fa-solid fa-basket-shopping"></i> Keranjang</h2>
+            <button class="close-btn" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div class="cart-items-container" id="cart-items">
+            <!-- Item akan digenerate oleh JS -->
+            <div style="text-align: center; color: #999; margin-top: 50px;" id="empty-msg">
+                <i class="fa-solid fa-cart-arrow-down" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                <p>Keranjang Anda masih kosong</p>
+            </div>
+        </div>
 
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="total-price">Rp 0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkoutWA()">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.3em;"></i> Checkout via WA
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i> 
+        <span id="toast-msg">Berhasil ditambahkan!</span>
+    </div>
+
+    <!-- Script Utama -->
+    <script>
+        // Data Keranjang
+        let cart = [];
+        const waNumber = "6282113864543"; // Nomor WhatsApp tujuan
+
+        // Format Rupiah
+        const formatRupiah = (number) => {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        };
+
+        // Toggle Menu Mobile
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Toggle Keranjang
         function toggleCart() {
             const modal = document.getElementById('cart-modal');
+            const overlay = document.getElementById('cart-overlay');
+            
             if (modal.classList.contains('active')) {
                 modal.classList.remove('active');
-                // Timeout to wait for transition before hiding completely
-                setTimeout(() => { modal.style.display = 'none'; }, 300);
+                overlay.classList.remove('active');
             } else {
-                modal.style.display = 'flex';
-                // Small timeout to allow display:flex to apply before adding class for animation
-                setTimeout(() => { modal.classList.add('active'); }, 10);
+                modal.classList.add('active');
+                overlay.classList.add('active');
+                updateCartUI(); // Pastikan UI terbaru saat dibuka
             }
         }
 
-        function addToCart() {
-            cartCount++;
-            document.getElementById('cart-count').innerText = cartCount;
-            
-            // Animasi kecil di tombol keranjang
-            const cartBtn = document.getElementById('cart-btn');
-            cartBtn.style.transform = 'scale(1.2)';
+        // Tampilkan Notifikasi Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.add('show');
             setTimeout(() => {
-                cartBtn.style.transform = 'scale(1)';
-            }, 200);
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
-            // Ganti teks kosong jika ada barang
-            document.getElementById('empty-cart-msg').innerText = "Produk berhasil ditambahkan. (Fitur demo)";
+        // Tambah ke Keranjang
+        function addToCart(id, name, price, img) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ id, name, price, img, qty: 1 });
+            }
+
+            // Animasi icon keranjang di navbar
+            const cartBtn = document.getElementById('cart-btn');
+            cartBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => cartBtn.style.transform = 'scale(1)', 200);
+
+            showToast(name + " ditambahkan ke keranjang!");
+            updateCartUI();
+        }
+
+        // Ubah Kuantitas (+ / -)
+        function changeQty(id, delta) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    removeItem(id); // Hapus jika qty 0
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        // Hapus Item
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        // Update Tampilan Keranjang
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('empty-msg');
+            const countBadge = document.getElementById('cart-count');
+            const totalEl = document.getElementById('total-price');
+
+            // Update Total Item Badge
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            countBadge.innerText = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                container.appendChild(emptyMsg);
+                emptyMsg.style.display = 'block';
+                totalEl.innerText = 'Rp 0';
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            container.innerHTML = '';
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                totalPrice += item.price * item.qty;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">${formatRupiah(item.price)}</div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem('${item.id}')" title="Hapus">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+
+            totalEl.innerText = formatRupiah(totalPrice);
+        }
+
+        // Fitur Beli Langsung 1 Item ke WA
+        function beliLangsung(namaProduk) {
+            const text = `Halo Admin Green Mold, saya ingin membeli langsung produk: *${namaProduk}*. Apakah stoknya masih tersedia?`;
+            const encodedText = encodeURIComponent(text);
+            window.open(`https://wa.me/${waNumber}?text=${encodedText}`, '_blank');
+        }
+
+        // Fitur Checkout Semua Item di Keranjang ke WA
+        function checkoutWA() {
+            if (cart.length === 0) {
+                showToast("Keranjang Anda masih kosong!");
+                return;
+            }
+
+            let text = "Halo Admin Green Mold, saya ingin memesan benih berikut:\n\n";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                text += `${index + 1}. *${item.name}*\n`;
+                text += `   Jumlah: ${item.qty} kg\n`;
+                text += `   Subtotal: ${formatRupiah(subtotal)}\n\n`;
+            });
+
+            text += `*Total Pembayaran: ${formatRupiah(total)}*\n\n`;
+            text += "Mohon info untuk ketersediaan dan ongkos kirimnya. Terima kasih.";
+
+            const encodedText = encodeURIComponent(text);
+            window.open(`https://wa.me/${waNumber}?text=${encodedText}`, '_blank');
         }
     </script>
 </body>
