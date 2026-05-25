@@ -58,7 +58,7 @@
 
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             align-items: center;
         }
 
@@ -85,6 +85,25 @@
         nav a.link-item:hover::after { width: 100%; }
         nav a.link-item:hover { color: var(--primary); } 
         
+        /* Switch Mode Admin */
+        .admin-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #eaeaea;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .admin-toggle-wrapper.active {
+            background: #e8f8f0;
+            color: var(--primary-dark);
+        }
+
         #cart-btn { 
             background: var(--accent); 
             border: none; 
@@ -232,18 +251,54 @@
         } 
         
         .card:hover { 
-            transform: translateY(-10px); 
+            transform: translateY(-5px); 
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
         } 
         
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #eaeaea;
+        }
+
         .card img { 
             width: 100%; 
-            height: 220px; 
+            height: 100%; 
             object-fit: cover; 
             transition: var(--transition); 
         } 
         
         .card:hover img { transform: scale(1.05); } 
+
+        /* Edit Overlay Buttons */
+        .upload-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.75);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            color: white;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0.9;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .upload-overlay:hover {
+            background: var(--primary);
+            opacity: 1;
+        }
+        .upload-overlay input[type="file"] {
+            display: none;
+        }
         
         .badge { 
             position: absolute; 
@@ -524,10 +579,16 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <div class="nav-links" id="navLinks">
-            <a href="#" class="link-item">Home</a>
+            <a href="#" class="link-item">Beranda</a>
             <a href="#tentang" class="link-item">Tentang</a>
             <a href="#produk-section" class="link-item">Produk</a>
             <a href="#lokasi" class="link-item">Lokasi</a>
+            
+            <!-- Tombol Pengelola Toko -->
+            <div class="admin-toggle-wrapper active" onclick="toggleAdminMode()" id="adminToggle" title="Klik untuk mengaktifkan/menonaktifkan tombol Ganti Foto">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Mode Pengelola
+            </div>
+
             <button id="cart-btn" onclick="toggleCart()">
                 <i class="fa-solid fa-cart-shopping"></i> 
                 <span id="cart-count">0</span>
@@ -566,65 +627,211 @@
 
     <!-- Bagian Produk -->
     <section id="produk-section" style="background: var(--bg-light); padding-top: 20px;">
-        <h2 class="section-title">Katalog Benih Terpopuler</h2>
+        <h2 class="section-title">Katalog Bibit & Tanaman</h2>
         <div class="container">
             
-            <!-- Kartu 1 -->
+            <!-- Kartu 1: Alpukat -->
             <div class="card">
-                <div class="badge">Terlaris</div>
-                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=500&auto=format&fit=crop&q=60" alt="Benih Jati">
+                <div class="badge">Populer</div>
+                <div class="image-container">
+                    <img id="img-alpukat" src="Foto.Alpukat.jpg" alt="Bibit Alpukat" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Alpukat
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'alpukat')">
+                    </label>
+                </div>
                 <div class="body">
-                    <div class="title">Benih Pohon Jati Unggul</div>
-                    <div class="desc">Benih jati pilihan, pertumbuhan cepat dan kualitas kayu lurus. Cocok untuk investasi jangka panjang.</div>
-                    <div class="harga">Rp 120.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
-                    <button class="btn add" onclick="addToCart('1', 'Benih Pohon Jati Unggul', 120000, 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=100&auto=format&fit=crop&q=60')">
+                    <div class="title">Bibit Alpukat Unggul</div>
+                    <div class="desc">Bibit alpukat rimbun dan sehat, siap tanam di pekarangan atau pot besar.</div>
+                    <div class="harga">Rp 65.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('alpukat', 'Bibit Alpukat Unggul', 65000)">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
-                    <button class="btn direct" onclick="beliLangsung('Benih Pohon Jati Unggul')">Beli Langsung (WA)</button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Alpukat Unggul')">Beli Langsung (WA)</button>
                 </div>
             </div>
 
-            <!-- Kartu 2 -->
-            <div class="card">
-                <div class="badge" style="background: #e74c3c;">Baru</div>
-                <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=500&auto=format&fit=crop&q=60" alt="Benih Sengon">
-                <div class="body">
-                    <div class="title">Benih Sengon Solomon</div>
-                    <div class="desc">Pertumbuhan sangat cepat, masa panen singkat. Cocok untuk lahan kritis dan Hutan Tanaman Industri (HTI).</div>
-                    <div class="harga">Rp 85.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
-                    <button class="btn add" onclick="addToCart('2', 'Benih Sengon Solomon', 85000, 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=100&auto=format&fit=crop&q=60')">
-                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
-                    </button>
-                    <button class="btn direct" onclick="beliLangsung('Benih Sengon Solomon')">Beli Langsung (WA)</button>
-                </div>
-            </div>
-
-            <!-- Kartu 3 -->
+            <!-- Kartu 2: Anggur -->
             <div class="card">
                 <div class="badge" style="background: #9b59b6;">Premium</div>
-                <img src="https://github.com/indra123420079/Toko-Online/blob/d0107664d68da629b4b14b0250bfd7262a85c829/Foto.Alpukat.jpeg">
+                <div class="image-container">
+                    <img id="img-anggur" src="Foto.Anggur.jpg" alt="Bibit Anggur" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Anggur
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'anggur')">
+                    </label>
+                </div>
                 <div class="body">
-                    <div class="title">Benih Kayu Mahoni</div>
-                    <div class="desc">Biji pilihan dengan daya kecambah tinggi. Menghasilkan kayu bernilai tinggi untuk furnitur eksklusif.</div>
-                    <div class="harga">Rp 95.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
-                    <button class="btn add" onclick="addToCart('3', 'Benih Kayu Mahoni', 95000, 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=100&auto=format&fit=crop&q=60')">
+                    <div class="title">Bibit Anggur Merambat</div>
+                    <div class="desc">Bibit anggur siap rambat. Sangat cocok untuk hiasan kanopi rumah Anda.</div>
+                    <div class="harga">Rp 85.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
+                    <button class="btn add" onclick="addToCart('anggur', 'Bibit Anggur Merambat', 85000)">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
-                    <button class="btn direct" onclick="beliLangsung('Benih Kayu Mahoni')">Beli Langsung (WA)</button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Anggur Merambat')">Beli Langsung (WA)</button>
                 </div>
             </div>
 
-            <!-- Kartu 4 (Tambahan) -->
+            <!-- Kartu 3: Bawang Daun -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1587334274328-64186a80aeee?w=500&auto=format&fit=crop&q=60" alt="Benih Akasia">
+                <div class="image-container">
+                    <img id="img-bawangdaun" src="Foto.BawangDaun.jpeg" alt="Bawang Daun" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1604177091072-b5e1df1f8b1c?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Bawang Daun
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'bawangdaun')">
+                    </label>
+                </div>
                 <div class="body">
-                    <div class="title">Benih Akasia Mangium</div>
-                    <div class="desc">Tahan terhadap berbagai kondisi tanah, perakaran kuat, sangat direkomendasikan untuk penghijauan.</div>
-                    <div class="harga">Rp 75.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ kg</span></div>
-                    <button class="btn add" onclick="addToCart('4', 'Benih Akasia Mangium', 75000, 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?w=100&auto=format&fit=crop&q=60')">
+                    <div class="title">Tanaman Bawang Daun</div>
+                    <div class="desc">Bawang daun subur, bisa langsung dipanen untuk kebutuhan dapur harian.</div>
+                    <div class="harga">Rp 15.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('bawangdaun', 'Tanaman Bawang Daun', 15000)">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
-                    <button class="btn direct" onclick="beliLangsung('Benih Akasia Mangium')">Beli Langsung (WA)</button>
+                    <button class="btn direct" onclick="beliLangsung('Tanaman Bawang Daun')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 4: Belimbing -->
+            <div class="card">
+                <div class="image-container">
+                    <img id="img-belimbing" src="Foto.Belimbing.jpg" alt="Bibit Belimbing" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610397648930-475583771a53?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Belimbing
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'belimbing')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Bibit Pohon Belimbing</div>
+                    <div class="desc">Bibit belimbing manis, rimbun dan mudah berbuah meskipun di dataran rendah.</div>
+                    <div class="harga">Rp 55.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('belimbing', 'Bibit Pohon Belimbing', 55000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Pohon Belimbing')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 5: Buah Tin -->
+            <div class="card">
+                <div class="badge" style="background: #e74c3c;">Langka</div>
+                <div class="image-container">
+                    <img id="img-buahtin" src="Foto.BuahTin.jpeg" alt="Bibit Buah Tin" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1601379327928-2f3c11019685?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Buah Tin
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'buahtin')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Bibit Buah Tin (Fig)</div>
+                    <div class="desc">Pohon tin subur, kaya manfaat, dan sangat mudah dirawat dalam pot.</div>
+                    <div class="harga">Rp 120.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
+                    <button class="btn add" onclick="addToCart('buahtin', 'Bibit Buah Tin (Fig)', 120000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Buah Tin (Fig)')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 6: Cabai -->
+            <div class="card">
+                <div class="badge">Terlaris</div>
+                <div class="image-container">
+                    <img id="img-cabai" src="Foto.Cabai.jpeg" alt="Tanaman Cabai" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1588252303782-cb80119f7eac?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Cabai
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'cabai')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Tanaman Cabai Rawit</div>
+                    <div class="desc">Pohon cabai rawit berbuah lebat, solusi hemat bumbu dapur Anda.</div>
+                    <div class="harga">Rp 25.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
+                    <button class="btn add" onclick="addToCart('cabai', 'Tanaman Cabai Rawit', 25000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Tanaman Cabai Rawit')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 7: Cabai Caplak -->
+            <div class="card">
+                <div class="image-container">
+                    <img id="img-cabaicaplak" src="Foto.CabaiCaplak.jpg" alt="Cabai Caplak" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564683377402-60195a6ec899?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Caplak
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'cabaicaplak')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Tanaman Cabai Caplak</div>
+                    <div class="desc">Varian cabai pedas ekstra yang sudah mulai berbuah. Perawatan sangat mudah.</div>
+                    <div class="harga">Rp 30.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('cabaicaplak', 'Tanaman Cabai Caplak', 30000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Tanaman Cabai Caplak')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 8: Jambu Citra -->
+            <div class="card">
+                <div class="image-container">
+                    <img id="img-jambucitra" src="Foto.JambuCitra.jpg" alt="Jambu Citra" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543157145-f78c636d023d?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Jambu
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'jambucitra')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Bibit Jambu Air Citra</div>
+                    <div class="desc">Bibit jambu citra manis tanpa biji, sangat rindang dan rimbun pertumbuhannya.</div>
+                    <div class="harga">Rp 60.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('jambucitra', 'Bibit Jambu Air Citra', 60000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Jambu Air Citra')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 9: Kelengkeng Merah -->
+            <div class="card">
+                <div class="badge" style="background: #e74c3c;">Eksotis</div>
+                <div class="image-container">
+                    <img id="img-kelengkengmerah" src="Foto.KelengkengMerah.jpg" alt="Kelengkeng Merah" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Kelengkeng
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'kelengkengmerah')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Bibit Kelengkeng Merah</div>
+                    <div class="desc">Varian kelengkeng eksotis berdaun dan berbuah merah (Ruby Longan).</div>
+                    <div class="harga">Rp 150.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
+                    <button class="btn add" onclick="addToCart('kelengkengmerah', 'Bibit Kelengkeng Merah', 150000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Kelengkeng Merah')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
+            <!-- Kartu 10: Kembang Kol -->
+            <div class="card">
+                <div class="image-container">
+                    <img id="img-kembangkol" src="Foto.KembangKol.jpeg" alt="Kembang Kol" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568584711075-3d021a7c3ec3?w=500&auto=format&fit=crop&q=60';">
+                    <label class="upload-overlay admin-btn">
+                        <i class="fa-solid fa-camera"></i> Ganti Foto Kembang Kol
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'kembangkol')">
+                    </label>
+                </div>
+                <div class="body">
+                    <div class="title">Tanaman Kembang Kol</div>
+                    <div class="desc">Kembang kol subur, ditanam dengan sistem hidroponik yang bersih dan sehat.</div>
+                    <div class="harga">Rp 35.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ paralon</span></div>
+                    <button class="btn add" onclick="addToCart('kembangkol', 'Tanaman Kembang Kol', 35000)">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Tanaman Kembang Kol')">Beli Langsung (WA)</button>
                 </div>
             </div>
 
@@ -700,9 +907,13 @@
 
     <!-- Script Utama -->
     <script>
-        // Data Keranjang
+        // Data Keranjang & Status
         let cart = [];
+        let adminMode = true; // Mode Admin default aktif agar user bisa langsung ganti foto
         const waNumber = "6282113864543"; // Nomor WhatsApp tujuan
+
+        // Penyimpanan Gambar yang Dipilih User (Base64 / Blob URL)
+        let dynamicImages = {};
 
         // Format Rupiah
         const formatRupiah = (number) => {
@@ -712,6 +923,53 @@
         // Toggle Menu Mobile
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Toggle Mode Admin (Ganti Foto)
+        function toggleAdminMode() {
+            adminMode = !adminMode;
+            const toggleBtn = document.getElementById('adminToggle');
+            const adminButtons = document.querySelectorAll('.admin-btn');
+            
+            if (adminMode) {
+                toggleBtn.classList.add('active');
+                adminButtons.forEach(btn => btn.style.display = 'flex');
+                showToast("Mode Pengelola aktif. Anda bisa mengganti foto produk!");
+            } else {
+                toggleBtn.classList.remove('active');
+                adminButtons.forEach(btn => btn.style.display = 'none');
+                showToast("Mode Pembeli aktif.");
+            }
+        }
+
+        // Preview dan Simpan Gambar Hasil Unggahan Langsung
+        function previewImage(input, productId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const resultSrc = e.target.result;
+                    
+                    // Update gambar di kartu produk utama
+                    const imgElement = document.getElementById(`img-${productId}`);
+                    if (imgElement) {
+                        imgElement.src = resultSrc;
+                    }
+
+                    // Simpan ke memori dinamis
+                    dynamicImages[productId] = resultSrc;
+                    
+                    // Update gambar di keranjang jika produk tersebut sudah ada di keranjang
+                    const cartItem = cart.find(item => item.id === productId);
+                    if (cartItem) {
+                        cartItem.img = resultSrc;
+                    }
+
+                    showToast(`Foto ${productId.toUpperCase()} berhasil diperbarui!`);
+                    updateCartUI();
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         // Toggle Keranjang
@@ -740,13 +998,17 @@
         }
 
         // Tambah ke Keranjang
-        function addToCart(id, name, price, img) {
+        function addToCart(id, name, price) {
+            // Ambil gambar terbaru dari elemen img (bisa gambar default atau gambar yang sudah diganti user)
+            const imgElement = document.getElementById(`img-${id}`);
+            const currentImg = imgElement ? imgElement.src : 'Foto.' + id.charAt(0).toUpperCase() + id.slice(1) + '.jpg';
+
             const existingItem = cart.find(item => item.id === id);
             
             if (existingItem) {
                 existingItem.qty += 1;
             } else {
-                cart.push({ id, name, price, img, qty: 1 });
+                cart.push({ id, name, price, img: currentImg, qty: 1 });
             }
 
             // Animasi icon keranjang di navbar
@@ -804,8 +1066,24 @@
                 totalPrice += item.price * item.qty;
                 const div = document.createElement('div');
                 div.className = 'cart-item';
+                
+                // Fallback dinamis jika gambar gagal dimuat
+                const fallbackImgMap = {
+                    'alpukat': 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=100&auto=format&fit=crop&q=60',
+                    'anggur': 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=100&auto=format&fit=crop&q=60',
+                    'bawangdaun': 'https://images.unsplash.com/photo-1604177091072-b5e1df1f8b1c?w=100&auto=format&fit=crop&q=60',
+                    'belimbing': 'https://images.unsplash.com/photo-1610397648930-475583771a53?w=100&auto=format&fit=crop&q=60',
+                    'buahtin': 'https://images.unsplash.com/photo-1601379327928-2f3c11019685?w=100&auto=format&fit=crop&q=60',
+                    'cabai': 'https://images.unsplash.com/photo-1588252303782-cb80119f7eac?w=100&auto=format&fit=crop&q=60',
+                    'cabaicaplak': 'https://images.unsplash.com/photo-1564683377402-60195a6ec899?w=100&auto=format&fit=crop&q=60',
+                    'jambucitra': 'https://images.unsplash.com/photo-1543157145-f78c636d023d?w=100&auto=format&fit=crop&q=60',
+                    'kelengkengmerah': 'https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=100&auto=format&fit=crop&q=60',
+                    'kembangkol': 'https://images.unsplash.com/photo-1568584711075-3d021a7c3ec3?w=100&auto=format&fit=crop&q=60'
+                };
+                const fallbackUrl = fallbackImgMap[item.id] || 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=100&auto=format&fit=crop&q=60';
+
                 div.innerHTML = `
-                    <img src="${item.img}" alt="${item.name}">
+                    <img src="${item.img}" alt="${item.name}" onerror="this.onerror=null; this.src='${fallbackUrl}';">
                     <div class="item-details">
                         <div class="item-name">${item.name}</div>
                         <div class="item-price">${formatRupiah(item.price)}</div>
@@ -839,14 +1117,14 @@
                 return;
             }
 
-            let text = "Halo Admin Green Mold, saya ingin memesan benih berikut:\n\n";
+            let text = "Halo Admin Green Mold, saya ingin memesan bibit berikut:\n\n";
             let total = 0;
 
             cart.forEach((item, index) => {
                 const subtotal = item.price * item.qty;
                 total += subtotal;
                 text += `${index + 1}. *${item.name}*\n`;
-                text += `   Jumlah: ${item.qty} kg\n`;
+                text += `   Jumlah: ${item.qty} unit\n`;
                 text += `   Subtotal: ${formatRupiah(subtotal)}\n\n`;
             });
 
