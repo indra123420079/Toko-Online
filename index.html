@@ -320,6 +320,7 @@
             border-radius: 20px; 
             overflow: hidden;
             box-shadow: var(--shadow); 
+            background: #f9f9f9;
         } 
         
         iframe { 
@@ -328,6 +329,26 @@
             border: none; 
             display: block;
         } 
+
+        .maps-btn-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .maps-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--dark);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+        .maps-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
         /* Footer */ 
         footer { 
@@ -532,10 +553,10 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <div class="nav-links" id="navLinks">
-            <a href="#" class="link-item">Beranda</a>
-            <a href="#tentang" class="link-item">Tentang</a>
-            <a href="#produk-section" class="link-item">Produk</a>
-            <a href="#lokasi" class="link-item">Lokasi</a>
+            <a href="#" class="link-item" onclick="toggleMenu()">Beranda</a>
+            <a href="#tentang" class="link-item" onclick="toggleMenu()">Tentang</a>
+            <a href="#produk-section" class="link-item" onclick="toggleMenu()">Produk</a>
+            <a href="#lokasi" class="link-item" onclick="toggleMenu()">Lokasi</a>
 
             <button id="cart-btn" onclick="toggleCart()">
                 <i class="fa-solid fa-cart-shopping"></i> 
@@ -749,9 +770,18 @@
     <!-- Bagian Peta / Lokasi -->
     <section class="maps-wrapper" id="lokasi">
         <h2 class="section-title" style="margin-top: 0;">Kunjungi Toko Kami</h2>
-        <p style="margin-bottom: 30px; color: #666;">Datang dan pilih langsung benih berkualitas di pusat pembibitan kami di Bandar Lampung.</p>
+        <p style="margin-bottom: 30px; color: #666;">Datang dan pilih langsung benih berkualitas di pusat pembibitan Komunitas Ayo Menanam Indonesia (KAMI).</p>
+        
         <div class="maps-box">
-            <iframe src="https://maps.app.goo.gl/vDMaCiGBPKtU1xmUA"
+            <!-- Menampilkan Peta Umum dari Google (Aman untuk iframe) -->
+            <iframe src="https://maps.google.com/maps?q=Jl.+Danau+Toba+No.44-30,+Kedaton,+Bandar+Lampung&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+            <!-- Tombol Arahkan Langsung ke Tautan Spesifik (Pencegahan Error Iframe Maps URL Pendek) -->
+            <div class="maps-btn-container">
+                <a href="https://maps.app.goo.gl/vDMaCiGBPKtU1xmUA" target="_blank" class="maps-btn">
+                    <i class="fa-solid fa-map-location-dot"></i> Buka Rute di Google Maps
+                </a>
+            </div>
         </div>
     </section>
 
@@ -764,8 +794,8 @@
             </div>
             <div class="footer-col">
                 <h3>Hubungi Kami</h3>
-                <p><i class="fa-solid fa-location-dot"></i> Jl. Teuku Umar, Bandar Lampung</p>
-                <p><i class="fa-brands fa-whatsapp"></i> +62 821-1386-4543</p>
+                <p><i class="fa-solid fa-location-dot"></i> Komunitas Ayo Menanam Indonesia (KAMI), Jl. Danau Toba No.44-30, Kel. Surabaya, Kec. Kedaton, Kota Bandar Lampung, Lampung (35132)</p>
+                <p><i class="fa-brands fa-whatsapp"></i> +62 822-8273-6904</p>
                 <p><i class="fa-regular fa-envelope"></i> admin@greenmold.id</p>
             </div>
             <div class="footer-col">
@@ -789,207 +819,140 @@
         </div>
         
         <div class="cart-items-container" id="cart-items">
-            <!-- Item akan digenerate oleh JS -->
+            <!-- Pesan kosong -->
             <div style="text-align: center; color: #999; margin-top: 50px;" id="empty-msg">
                 <i class="fa-solid fa-cart-arrow-down" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
                 <p>Keranjang Anda masih kosong</p>
             </div>
         </div>
-
+        
+        <!-- Footer Keranjang -->
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
-                <span id="total-price">Rp 0</span>
+                <span id="cart-total-price">Rp 0</span>
             </div>
-            <button class="checkout-btn" onclick="checkoutWA()">
-                <i class="fa-brands fa-whatsapp" style="font-size: 1.3em;"></i> Checkout via WA
+            <button class="checkout-btn" onclick="checkout()">
+                <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
             </button>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast">
-        <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i> 
-        <span id="toast-msg">Berhasil ditambahkan!</span>
-    </div>
+    <div id="toast"></div>
 
-    <!-- Script Utama -->
+    <!-- JavaScript Untuk Interaksi & Keranjang -->
     <script>
-        // Data Keranjang & Status
         let cart = [];
-        const waNumber = "6282113864543"; // Nomor WhatsApp tujuan
+        const noWa = "6282282736904"; // Nomor WA dari footer
 
-        // Format Rupiah
-        const formatRupiah = (number) => {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-        };
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
 
-        // Toggle Menu Mobile
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
 
-        // Toggle Keranjang
         function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            const overlay = document.getElementById('cart-overlay');
-            
-            if (modal.classList.contains('active')) {
-                modal.classList.remove('active');
-                overlay.classList.remove('active');
-            } else {
-                modal.classList.add('active');
-                overlay.classList.add('active');
-                updateCartUI(); // Pastikan UI terbaru saat dibuka
-            }
+            document.getElementById('cart-modal').classList.toggle('active');
+            document.getElementById('cart-overlay').classList.toggle('active');
         }
 
-        // Tampilkan Notifikasi Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = message;
+            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Tambah ke Keranjang
         function addToCart(id, name, price) {
-            // Ambil gambar terbaru dari elemen img (menggunakan fallback statis jika gambar dasar gagal)
-            const imgElement = document.getElementById(`img-${id}`);
-            const currentImg = imgElement ? imgElement.src : 'Foto.' + id.charAt(0).toUpperCase() + id.slice(1) + '.jpg';
-
-            const existingItem = cart.find(item => item.id === id);
-            
-            if (existingItem) {
-                existingItem.qty += 1;
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
             } else {
-                cart.push({ id, name, price, img: currentImg, qty: 1 });
+                const imgSrc = document.getElementById(`img-${id}`).src;
+                cart.push({ id, name, price, qty: 1, img: imgSrc });
             }
-
-            // Animasi icon keranjang di navbar
-            const cartBtn = document.getElementById('cart-btn');
-            cartBtn.style.transform = 'scale(1.1)';
-            setTimeout(() => cartBtn.style.transform = 'scale(1)', 200);
-
-            showToast(name + " ditambahkan ke keranjang!");
             updateCartUI();
+            showToast(`${name} ditambahkan!`);
         }
 
-        // Ubah Kuantitas (+ / -)
         function changeQty(id, delta) {
             const item = cart.find(item => item.id === id);
             if (item) {
                 item.qty += delta;
                 if (item.qty <= 0) {
-                    removeItem(id); // Hapus jika qty 0
-                } else {
-                    updateCartUI();
+                    cart = cart.filter(i => i.id !== id);
                 }
+                updateCartUI();
             }
         }
 
-        // Hapus Item
-        function removeItem(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
-
-        // Update Tampilan Keranjang
         function updateCartUI() {
             const container = document.getElementById('cart-items');
             const emptyMsg = document.getElementById('empty-msg');
-            const countBadge = document.getElementById('cart-count');
-            const totalEl = document.getElementById('total-price');
+            const count = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total-price');
 
-            // Update Total Item Badge
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            countBadge.innerText = totalItems;
+            // Update badge hitungan
+            count.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
 
             if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
                 container.innerHTML = '';
                 container.appendChild(emptyMsg);
-                emptyMsg.style.display = 'block';
                 totalEl.innerText = 'Rp 0';
                 return;
             }
 
             emptyMsg.style.display = 'none';
-            container.innerHTML = '';
-            let totalPrice = 0;
-
-            cart.forEach(item => {
-                totalPrice += item.price * item.qty;
-                const div = document.createElement('div');
-                div.className = 'cart-item';
-                
-                // Fallback dinamis jika gambar gagal dimuat
-                const fallbackImgMap = {
-                    'alpukat': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Alpukat.jpeg',
-                    'anggur': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Anggur.jpeg',
-                    'bawangdaun': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BawangDaun.jpeg',
-                    'belimbing': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Belimbing.jpeg',
-                    'buahtin': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BuahTin.jpeg',
-                    'cabai': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Cabai.jpeg',
-                    'cabaicaplak': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.CabaiCaplak.jpeg',
-                    'jambucitra': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.JambuCitra.jpeg',
-                    'kelengkengmerah': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KelengkengMerah.jpeg',
-                    'kembangkol': 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KembangKol.jpeg'
-                };
-                const fallbackUrl = fallbackImgMap[item.id] || 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=100&auto=format&fit=crop&q=60';
-
-                div.innerHTML = `
-                    <img src="${item.img}" alt="${item.name}" onerror="this.onerror=null; this.src='${fallbackUrl}';">
-                    <div class="item-details">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-price">${formatRupiah(item.price)}</div>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-                        </div>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem('${item.id}')" title="Hapus">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-
-            totalEl.innerText = formatRupiah(totalPrice);
-        }
-
-        // Fitur Beli Langsung 1 Item ke WA
-        function beliLangsung(namaProduk) {
-            const text = `Halo Admin Green Mold, saya ingin membeli langsung produk: *${namaProduk}*. Apakah stoknya masih tersedia?`;
-            const encodedText = encodeURIComponent(text);
-            window.open(`https://wa.me/${waNumber}?text=${encodedText}`, '_blank');
-        }
-
-        // Fitur Checkout Semua Item di Keranjang ke WA
-        function checkoutWA() {
-            if (cart.length === 0) {
-                showToast("Keranjang Anda masih kosong!");
-                return;
-            }
-
-            let text = "Halo Admin Green Mold, saya ingin memesan bibit berikut:\n\n";
+            let html = '';
             let total = 0;
 
-            cart.forEach((item, index) => {
-                const subtotal = item.price * item.qty;
-                total += subtotal;
-                text += `${index + 1}. *${item.name}*\n`;
-                text += `   Jumlah: ${item.qty} unit\n`;
-                text += `   Subtotal: ${formatRupiah(subtotal)}\n\n`;
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">${formatRupiah(item.price)}</div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
 
-            text += `*Total Pembayaran: ${formatRupiah(total)}*\n\n`;
-            text += "Mohon info untuk ketersediaan dan ongkos kirimnya. Terima kasih.";
+            container.innerHTML = html;
+            totalEl.innerText = formatRupiah(total);
+        }
 
-            const encodedText = encodeURIComponent(text);
-            window.open(`https://wa.me/${waNumber}?text=${encodedText}`, '_blank');
+        function beliLangsung(namaProduk) {
+            const text = `Halo Admin GreenMold, saya tertarik untuk membeli langsung produk *${namaProduk}*. Mohon info ketersediaan dan cara pembayarannya.`;
+            window.open(`https://wa.me/${noWa}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Keranjang masih kosong! Silakan tambah produk terlebih dahulu.');
+                return;
+            }
+            
+            let text = "Halo Admin GreenMold, saya ingin memesan produk berikut:\n\n";
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                text += `${index + 1}. ${item.name}\n   ${item.qty}x ${formatRupiah(item.price)} = ${formatRupiah(item.price * item.qty)}\n`;
+                total += item.price * item.qty;
+            });
+            
+            text += `\n*Total Belanja: ${formatRupiah(total)}*\n\nMohon info total biaya beserta ongkos kirimnya ke alamat saya. Terima kasih.`;
+            window.open(`https://wa.me/${noWa}?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
 </body>
