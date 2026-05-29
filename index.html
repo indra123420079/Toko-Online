@@ -570,8 +570,8 @@
         <h1>Tumbuhkan Masa Depan<br>Bersama Green Mold</h1>
         <p class="tagline">Penyedia Benih Tanaman Kehutanan & Pertanian Terbaik dengan Tingkat Germinasi Tinggi dan Bersertifikat.</p>
         <div class="search-box">
-            <input type="text" placeholder="Cari benih jati, sengon, dll...">
-            <button><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
+            <input type="text" id="searchInput" placeholder="Cari benih, bibit, atau pot pertanian...">
+            <button onclick="searchProduct()"><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
         </div>
     </header>
 
@@ -596,11 +596,28 @@
 
     <!-- Bagian Produk -->
     <section id="produk-section" style="background: var(--bg-light); padding-top: 20px;">
-        <h2 class="section-title">Katalog Bibit & Tanaman</h2>
-        <div class="container">
+        <h2 class="section-title">Katalog Bibit & Peralatan</h2>
+        <div class="container" id="productContainer">
             
+            <!-- Kartu Pot Pertanian (PRODUK BARU) -->
+            <div class="card" data-name="pot greenmold plastik tebal premium">
+                <div class="badge" style="background: var(--primary-dark);">Terbaru</div>
+                <div class="image-container">
+                    <img id="img-pot" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/5d3114cf937cdedaacca8b468e91120ba8548d35/pot.jpeg" alt="Pot GreenMold" onerror="this.onerror=null; this.src='pot.jpg';">
+                </div>
+                <div class="body">
+                    <div class="title">Pot GreenMold Premium</div>
+                    <div class="desc">Pot plastik tebal berkualitas tinggi dengan drainase udara yang optimal untuk kesuburan akar tanaman Anda.</div>
+                    <div class="harga">Rp 12.500 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pcs</span></div>
+                    <button class="btn add" onclick="addToCart('pot-greenmold', 'Pot GreenMold Premium', 12500, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/5d3114cf937cdedaacca8b468e91120ba8548d35/pot.jpeg')">
+                        <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                    </button>
+                    <button class="btn direct" onclick="beliLangsung('Pot GreenMold Premium')">Beli Langsung (WA)</button>
+                </div>
+            </div>
+
             <!-- Kartu 1: Alpukat -->
-            <div class="card">
+            <div class="card" data-name="bibit alpukat unggul">
                 <div class="badge">Populer</div>
                 <div class="image-container">
                     <img id="img-alpukat" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Alpukat.jpeg" alt="Bibit Alpukat" onerror="this.onerror=null; this.src='Foto.Alpukat.jpg';">
@@ -609,7 +626,7 @@
                     <div class="title">Bibit Alpukat Unggul</div>
                     <div class="desc">Bibit alpukat rimbun dan sehat, siap tanam di pekarangan atau pot besar.</div>
                     <div class="harga">Rp 65.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('alpukat', 'Bibit Alpukat Unggul', 65000)">
+                    <button class="btn add" onclick="addToCart('alpukat', 'Bibit Alpukat Unggul', 65000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Alpukat.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Bibit Alpukat Unggul')">Beli Langsung (WA)</button>
@@ -617,7 +634,7 @@
             </div>
 
             <!-- Kartu 2: Anggur -->
-            <div class="card">
+            <div class="card" data-name="bibit anggur merambat">
                 <div class="badge" style="background: #9b59b6;">Premium</div>
                 <div class="image-container">
                     <img id="img-anggur" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Anggur.jpeg" alt="Bibit Anggur" onerror="this.onerror=null; this.src='Foto.Anggur.jpg';">
@@ -626,7 +643,7 @@
                     <div class="title">Bibit Anggur Merambat</div>
                     <div class="desc">Bibit anggur siap rambat. Sangat cocok untuk hiasan kanopi rumah Anda.</div>
                     <div class="harga">Rp 100.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
-                    <button class="btn add" onclick="addToCart('anggur', 'Bibit Anggur Merambat', 85000)">
+                    <button class="btn add" onclick="addToCart('anggur', 'Bibit Anggur Merambat', 100000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Anggur.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Bibit Anggur Merambat')">Beli Langsung (WA)</button>
@@ -634,7 +651,7 @@
             </div>
 
             <!-- Kartu 3: Bawang Daun -->
-            <div class="card">
+            <div class="card" data-name="tanaman bawang daun">
                 <div class="image-container">
                     <img id="img-bawangdaun" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BawangDaun.jpeg" alt="Bawang Daun" onerror="this.onerror=null; this.src='Foto.BawangDaun.jpeg';">
                 </div>
@@ -642,7 +659,7 @@
                     <div class="title">Tanaman Bawang Daun</div>
                     <div class="desc">Bawang daun subur, bisa langsung dipanen untuk kebutuhan dapur harian.</div>
                     <div class="harga">Rp 15.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('bawangdaun', 'Tanaman Bawang Daun', 15000)">
+                    <button class="btn add" onclick="addToCart('bawangdaun', 'Tanaman Bawang Daun', 15000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BawangDaun.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Tanaman Bawang Daun')">Beli Langsung (WA)</button>
@@ -650,7 +667,7 @@
             </div>
 
             <!-- Kartu 4: Belimbing -->
-            <div class="card">
+            <div class="card" data-name="bibit pohon belimbing">
                 <div class="image-container">
                     <img id="img-belimbing" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Belimbing.jpeg" alt="Bibit Belimbing" onerror="this.onerror=null; this.src='Foto.Belimbing.jpg';">
                 </div>
@@ -658,7 +675,7 @@
                     <div class="title">Bibit Pohon Belimbing</div>
                     <div class="desc">Bibit belimbing manis, rimbun dan mudah berbuah meskipun di dataran rendah.</div>
                     <div class="harga">Rp 55.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('belimbing', 'Bibit Pohon Belimbing', 55000)">
+                    <button class="btn add" onclick="addToCart('belimbing', 'Bibit Pohon Belimbing', 55000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Belimbing.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Bibit Pohon Belimbing')">Beli Langsung (WA)</button>
@@ -666,24 +683,24 @@
             </div>
 
             <!-- Kartu 5: Buah Tin -->
-            <div class="card">
+            <div class="card" data-name="bibit buah tin">
                 <div class="badge" style="background: #e74c3c;">Langka</div>
                 <div class="image-container">
                     <img id="img-buahtin" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BuahTin.jpeg" alt="Bibit Buah Tin" onerror="this.onerror=null; this.src='Foto.BuahTin.jpeg';">
                 </div>
                 <div class="body">
-                    <div class="title">Bibit Buah Tin </div>
+                    <div class="title">Bibit Buah Tin</div>
                     <div class="desc">Pohon tin subur, kaya manfaat, dan sangat mudah dirawat dalam pot.</div>
                     <div class="harga">Rp 120.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
-                    <button class="btn add" onclick="addToCart('buahtin', 'Bibit Buah Tin (Fig)', 120000)">
+                    <button class="btn add" onclick="addToCart('buahtin', 'Bibit Buah Tin', 120000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.BuahTin.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
-                    <button class="btn direct" onclick="beliLangsung('Bibit Buah Tin (Fig)')">Beli Langsung (WA)</button>
+                    <button class="btn direct" onclick="beliLangsung('Bibit Buah Tin')">Beli Langsung (WA)</button>
                 </div>
             </div>
 
             <!-- Kartu 6: Cabai -->
-            <div class="card">
+            <div class="card" data-name="tanaman cabai rawit">
                 <div class="badge">Terlaris</div>
                 <div class="image-container">
                     <img id="img-cabai" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Cabai.jpeg" alt="Tanaman Cabai" onerror="this.onerror=null; this.src='Foto.Cabai.jpeg';">
@@ -692,7 +709,7 @@
                     <div class="title">Tanaman Cabai Rawit</div>
                     <div class="desc">Pohon cabai rawit berbuah lebat, solusi hemat bumbu dapur Anda.</div>
                     <div class="harga">Rp 25.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ pot</span></div>
-                    <button class="btn add" onclick="addToCart('cabai', 'Tanaman Cabai Rawit', 25000)">
+                    <button class="btn add" onclick="addToCart('cabai', 'Tanaman Cabai Rawit', 25000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.Cabai.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Tanaman Cabai Rawit')">Beli Langsung (WA)</button>
@@ -700,7 +717,7 @@
             </div>
 
             <!-- Kartu 7: Cabai Caplak -->
-            <div class="card">
+            <div class="card" data-name="tanaman cabai caplak">
                 <div class="image-container">
                     <img id="img-cabaicaplak" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.CabaiCaplak.jpeg" alt="Cabai Caplak" onerror="this.onerror=null; this.src='Foto.CabaiCaplak.jpg';">
                 </div>
@@ -708,7 +725,7 @@
                     <div class="title">Tanaman Cabai Caplak</div>
                     <div class="desc">Varian cabai pedas ekstra yang sudah mulai berbuah. Perawatan sangat mudah.</div>
                     <div class="harga">Rp 30.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('cabaicaplak', 'Tanaman Cabai Caplak', 30000)">
+                    <button class="btn add" onclick="addToCart('cabaicaplak', 'Tanaman Cabai Caplak', 30000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.CabaiCaplak.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Tanaman Cabai Caplak')">Beli Langsung (WA)</button>
@@ -716,7 +733,7 @@
             </div>
 
             <!-- Kartu 8: Jambu Citra -->
-            <div class="card">
+            <div class="card" data-name="bibit jambu air citra">
                 <div class="image-container">
                     <img id="img-jambucitra" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.JambuCitra.jpeg" alt="Jambu Citra" onerror="this.onerror=null; this.src='Foto.JambuCitra.jpg';">
                 </div>
@@ -724,7 +741,7 @@
                     <div class="title">Bibit Jambu Air Citra</div>
                     <div class="desc">Bibit jambu citra manis tanpa biji, sangat rindang dan rimbun pertumbuhannya.</div>
                     <div class="harga">Rp 60.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('jambucitra', 'Bibit Jambu Air Citra', 60000)">
+                    <button class="btn add" onclick="addToCart('jambucitra', 'Bibit Jambu Air Citra', 60000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.JambuCitra.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Bibit Jambu Air Citra')">Beli Langsung (WA)</button>
@@ -732,7 +749,7 @@
             </div>
 
             <!-- Kartu 9: Kelengkeng Merah -->
-            <div class="card">
+            <div class="card" data-name="bibit kelengkeng merah">
                 <div class="badge" style="background: #e74c3c;">Eksotis</div>
                 <div class="image-container">
                     <img id="img-kelengkengmerah" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KelengkengMerah.jpeg" alt="Kelengkeng Merah" onerror="this.onerror=null; this.src='Foto.KelengkengMerah.jpg';">
@@ -741,7 +758,7 @@
                     <div class="title">Bibit Kelengkeng Merah</div>
                     <div class="desc">Varian kelengkeng eksotis berdaun dan berbuah merah (Ruby Longan).</div>
                     <div class="harga">Rp 150.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ polybag</span></div>
-                    <button class="btn add" onclick="addToCart('kelengkengmerah', 'Bibit Kelengkeng Merah', 150000)">
+                    <button class="btn add" onclick="addToCart('kelengkengmerah', 'Bibit Kelengkeng Merah', 150000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KelengkengMerah.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Bibit Kelengkeng Merah')">Beli Langsung (WA)</button>
@@ -749,7 +766,7 @@
             </div>
 
             <!-- Kartu 10: Kembang Kol -->
-            <div class="card">
+            <div class="card" data-name="tanaman kembang kol">
                 <div class="image-container">
                     <img id="img-kembangkol" src="https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KembangKol.jpeg" alt="Kembang Kol" onerror="this.onerror=null; this.src='Foto.KembangKol.jpeg';">
                 </div>
@@ -757,7 +774,7 @@
                     <div class="title">Tanaman Kembang Kol</div>
                     <div class="desc">Kembang kol subur, ditanam dengan sistem hidroponik yang bersih dan sehat.</div>
                     <div class="harga">Rp 5.000 <span style="font-size: 0.6em; font-weight: normal; color: #777;">/ paralon</span></div>
-                    <button class="btn add" onclick="addToCart('kembangkol', 'Tanaman Kembang Kol', 35000)">
+                    <button class="btn add" onclick="addToCart('kembangkol', 'Tanaman Kembang Kol', 5000, 'https://raw.githubusercontent.com/indra123420079/Toko-Online/ebd240adafbe56de8662e77b9d099776131d072d/Foto.KembangKol.jpeg')">
                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
                     </button>
                     <button class="btn direct" onclick="beliLangsung('Tanaman Kembang Kol')">Beli Langsung (WA)</button>
@@ -773,12 +790,11 @@
         <p style="margin-bottom: 30px; color: #666;">Datang dan pilih langsung benih berkualitas di pusat pembibitan Komunitas Ayo Menanam Indonesia (KAMI).</p>
         
         <div class="maps-box">
-            <!-- Menampilkan Peta Umum dari Google (Aman untuk iframe) -->
-            <iframe src="https://maps.google.com/maps?q=Jl.+Danau+Toba+No.44-30,+Kedaton,+Bandar+Lampung&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <!-- Iframe Peta Lokasi Riil Sesuai Alamat -->
+            <iframe src="https://maps.google.com/maps?q=Komunitas%20Ayo%20Menanam%20Indonesia,%20Jl.%20Danau%20Toba,%20Kedaton,%20Bandar%20Lampung&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             
-            <!-- Tombol Arahkan Langsung ke Tautan Spesifik (Pencegahan Error Iframe Maps URL Pendek) -->
             <div class="maps-btn-container">
-                <a href="https://maps.app.goo.gl/vDMaCiGBPKtU1xmUA" target="_blank" class="maps-btn">
+                <a href="https://maps.google.com/?q=Komunitas+Ayo+Menanam+Indonesia+Jl+Danau+Toba+Bandar+Lampung" target="_blank" class="maps-btn">
                     <i class="fa-solid fa-map-location-dot"></i> Buka Rute di Google Maps
                 </a>
             </div>
@@ -796,163 +812,208 @@
                 <h3>Hubungi Kami</h3>
                 <p><i class="fa-solid fa-location-dot"></i> Komunitas Ayo Menanam Indonesia (KAMI), Jl. Danau Toba No.44-30, Kel. Surabaya, Kec. Kedaton, Kota Bandar Lampung, Lampung (35132)</p>
                 <p><i class="fa-brands fa-whatsapp"></i> +62 822-8273-6904</p>
-                <p><i class="fa-regular fa-envelope"></i> admin@greenmold.id</p>
-            </div>
-            <div class="footer-col">
-                <h3>Tautan Cepat</h3>
-                <p><a href="#home" style="color:white; text-decoration:none;">Beranda</a></p>
-                <p><a href="#produk-section" style="color:white; text-decoration:none;">Katalog Produk</a></p>
-                <p><a href="#lokasi" style="color:white; text-decoration:none;">Lokasi Toko</a></p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Green Mold Seed Shop. All rights reserved.</p>
+            &copy; 2026 Green Mold Seed Shop. All Rights Reserved.
         </div>
     </footer>
 
-    <!-- Overlay & Modal Keranjang -->
-    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <!-- STRUKTUR KERANJANG BELANJA (MODAL & OVERLAY) -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div id="cart-modal">
         <div class="cart-header">
-            <h2 style="margin: 0; font-size: 1.3em;"><i class="fa-solid fa-basket-shopping"></i> Keranjang</h2>
+            <h3><i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i> Keranjang Anda</h3>
             <button class="close-btn" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        
-        <div class="cart-items-container" id="cart-items">
-            <!-- Pesan kosong -->
-            <div style="text-align: center; color: #999; margin-top: 50px;" id="empty-msg">
-                <i class="fa-solid fa-cart-arrow-down" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
-                <p>Keranjang Anda masih kosong</p>
-            </div>
+        <div class="cart-items-container" id="cartItems">
+            <!-- Item belanjaan akan muncul secara dinamis lewat JS -->
         </div>
-        
-        <!-- Footer Keranjang -->
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
-                <span id="cart-total-price">Rp 0</span>
+                <span id="cartGrandTotal">Rp 0</span>
             </div>
-            <button class="checkout-btn" onclick="checkout()">
-                <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">
+                <i class="fa-brands fa-whatsapp"></i> Amankan & Pesan via WA
             </button>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast"></div>
+    <!-- STRUKTUR TOAST NOTIFICATION -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
+        <span id="toast-text">Produk dimasukkan keranjang!</span>
+    </div>
 
-    <!-- JavaScript Untuk Interaksi & Keranjang -->
+    <!-- LOGIKA INTERAKTIF JAVASCRIPT -->
     <script>
+        // State Management
         let cart = [];
-        const noWa = "6282282736904"; // Nomor WA dari footer
+        const waNumber = "6282282736904";
 
-        function formatRupiah(angka) {
-            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
+        // Toggle Navigasi Mobile Menu
         function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
+            const navLinks = document.getElementById('navLinks');
+            if (window.innerWidth <= 768) {
+                navLinks.classList.toggle('active');
+            }
         }
 
+        // Toggle Buka/Tutup Sidebar Keranjang
         function toggleCart() {
             document.getElementById('cart-modal').classList.toggle('active');
-            document.getElementById('cart-overlay').classList.toggle('active');
+            document.getElementById('cartOverlay').classList.toggle('active');
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        function addToCart(id, name, price) {
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty += 1;
+        // Menambahkan Item ke Dalam Keranjang
+        function addToCart(id, name, price, imgUrl) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.qty += 1;
             } else {
-                const imgSrc = document.getElementById(`img-${id}`).src;
-                cart.push({ id, name, price, qty: 1, img: imgSrc });
+                cart.push({ id, name, price, imgUrl, qty: 1 });
             }
+            
             updateCartUI();
-            showToast(`${name} ditambahkan!`);
+            showToast(`${name} dimasukkan ke keranjang!`);
         }
 
+        // Memperbarui UI Keranjang Belanjaan
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartCountBadge = document.getElementById('cart-count');
+            const cartGrandTotal = document.getElementById('cartGrandTotal');
+            
+            cartItemsContainer.innerHTML = '';
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div style="text-align:center; color:#888; margin-top:50px;">
+                        <i class="fa-solid fa-basket-shopping" style="font-size:3em; opacity:0.3; margin-bottom:15px;"></i>
+                        <p>Keranjang masih kosong.</p>
+                    </div>`;
+            } else {
+                cart.forEach(item => {
+                    totalItems += item.qty;
+                    totalPrice += (item.price * item.qty);
+
+                    const itemHtml = `
+                        <div class="cart-item">
+                            <img src="${item.imgUrl}" alt="${item.name}">
+                            <div class="item-details">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-price">Rp ${formatRupiah(item.price)}</div>
+                                <div class="qty-controls">
+                                    <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                                    <span>${item.qty}</span>
+                                    <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem('${item.id}')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsContainer.innerHTML += itemHtml;
+                });
+            }
+
+            cartCountBadge.innerText = totalItems;
+            cartGrandTotal.innerText = `Rp ${formatRupiah(totalPrice)}`;
+        }
+
+        // Mengubah Kuantitas Barang (+ atau -)
         function changeQty(id, delta) {
             const item = cart.find(item => item.id === id);
             if (item) {
                 item.qty += delta;
                 if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== id);
+                    removeItem(id);
+                } else {
+                    updateCartUI();
                 }
-                updateCartUI();
             }
         }
 
-        function updateCartUI() {
-            const container = document.getElementById('cart-items');
-            const emptyMsg = document.getElementById('empty-msg');
-            const count = document.getElementById('cart-count');
-            const totalEl = document.getElementById('cart-total-price');
+        // Menghapus Item secara Permanen dari Keranjang
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
 
-            // Update badge hitungan
-            count.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+        // Format Angka ke Rupiah standard string
+        function formatRupiah(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
 
-            if (cart.length === 0) {
-                emptyMsg.style.display = 'block';
-                container.innerHTML = '';
-                container.appendChild(emptyMsg);
-                totalEl.innerText = 'Rp 0';
-                return;
-            }
+        // Menampilkan Toast Ringkas ala App Modern
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
 
-            emptyMsg.style.display = 'none';
-            let html = '';
-            let total = 0;
-
-            cart.forEach(item => {
-                total += item.price * item.qty;
-                html += `
-                    <div class="cart-item">
-                        <img src="${item.img}" alt="${item.name}">
-                        <div class="item-details">
-                            <div class="item-name">${item.name}</div>
-                            <div class="item-price">${formatRupiah(item.price)}</div>
-                            <div class="qty-controls">
-                                <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
-                                <span>${item.qty}</span>
-                                <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+        // Fitur Pencarian Katalog
+        function searchProduct() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('#productContainer .card');
+            
+            cards.forEach(card => {
+                const productName = card.getAttribute('data-name');
+                if (productName.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
             });
-
-            container.innerHTML = html;
-            totalEl.innerText = formatRupiah(total);
         }
 
-        function beliLangsung(namaProduk) {
-            const text = `Halo Admin GreenMold, saya tertarik untuk membeli langsung produk *${namaProduk}*. Mohon info ketersediaan dan cara pembayarannya.`;
-            window.open(`https://wa.me/${noWa}?text=${encodeURIComponent(text)}`, '_blank');
+        // Trigger Pencarian Real-time saat Menekan Tombol Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProduct();
+            }
+        });
+
+        // Tombol Jalan Pintas: Beli Langsung Tunggal via WhatsApp
+        function beliLangsung(productName) {
+            const message = `Halo Green Mold Seed Shop, saya ingin memesan langsung produk berikut:\n\n- *${productName}* (1 pcs)\n\nMohon informasi total harga beserta ongkos kirimnya, terima kasih.`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${waNumber}?text=${encodedMessage}`, '_blank');
         }
 
-        function checkout() {
+        // Checkout Massal Semua Isi Keranjang via WhatsApp
+        function checkoutWhatsApp() {
             if (cart.length === 0) {
-                alert('Keranjang masih kosong! Silakan tambah produk terlebih dahulu.');
+                showToast("Keranjang Anda kosong!");
                 return;
             }
+
+            let message = `Halo Green Mold, saya ingin memesan item dari website berikut:\n`;
+            message += `===============================\n`;
             
-            let text = "Halo Admin GreenMold, saya ingin memesan produk berikut:\n\n";
-            let total = 0;
-            
+            let grandTotal = 0;
             cart.forEach((item, index) => {
-                text += `${index + 1}. ${item.name}\n   ${item.qty}x ${formatRupiah(item.price)} = ${formatRupiah(item.price * item.qty)}\n`;
-                total += item.price * item.qty;
+                const totalItemPrice = item.price * item.qty;
+                grandTotal += totalItemPrice;
+                message += `${index + 1}. *${item.name}*\n`;
+                message += `   Jumlah: ${item.qty} x Rp ${formatRupiah(item.price)}\n`;
+                message += `   Subtotal: Rp ${formatRupiah(totalItemPrice)}\n\n`;
             });
-            
-            text += `\n*Total Belanja: ${formatRupiah(total)}*\n\nMohon info total biaya beserta ongkos kirimnya ke alamat saya. Terima kasih.`;
-            window.open(`https://wa.me/${noWa}?text=${encodeURIComponent(text)}`, '_blank');
+
+            message += `===============================\n`;
+            message += `*Total Belanja:* Rp ${formatRupiah(grandTotal)}\n\n`;
+            message += `Mohon dibantu infokan alamat pengiriman dan instruksi pembayaran selanjutnya.`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${waNumber}?text=${encodedMessage}`, '_blank');
         }
     </script>
 </body>
